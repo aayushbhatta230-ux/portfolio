@@ -10,14 +10,26 @@ const Loading = ({ percent }: { percent: number }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [clicked, setClicked] = useState(false);
 
-  if (percent >= 100) {
-    setTimeout(() => {
+  useEffect(() => {
+    if (percent >= 100) {
+      const t1 = setTimeout(() => {
+        setLoaded(true);
+        const t2 = setTimeout(() => {
+          setIsLoaded(true);
+        }, 800);
+        return () => clearTimeout(t2);
+      }, 400);
+      return () => clearTimeout(t1);
+    }
+  }, [percent]);
+
+  useEffect(() => {
+    const safety = setTimeout(() => {
       setLoaded(true);
-      setTimeout(() => {
-        setIsLoaded(true);
-      }, 1000);
-    }, 600);
-  }
+      setIsLoaded(true);
+    }, 7000);
+    return () => clearTimeout(safety);
+  }, []);
 
   useEffect(() => {
     import("./utils/initialFX").then((module) => {
@@ -46,7 +58,7 @@ const Loading = ({ percent }: { percent: number }) => {
     <>
       <div className="loading-header">
         <a href="/#" className="loader-title navbar-title" data-cursor="disable">
-          <img src="/images/logo.png" alt="Aayush Bhatta Logo" className="navbar-logo-img" />
+          <img src={`${import.meta.env.BASE_URL || "/"}images/logo.png`} alt="Aayush Bhatta Logo" className="navbar-logo-img" />
           <span>AAYUSH</span>
         </a>
         <div className={`loaderGame ${clicked && "loader-out"}`}>

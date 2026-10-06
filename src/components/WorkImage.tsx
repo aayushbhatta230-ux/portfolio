@@ -29,6 +29,7 @@ const WorkImage = (props: Props) => {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={() => setIsVideo(false)}
         target="_blank"
+        rel="noopener noreferrer"
         data-cursor={"disable"}
       >
         {props.link && (
@@ -36,7 +37,18 @@ const WorkImage = (props: Props) => {
             <MdArrowOutward />
           </div>
         )}
-        <img src={props.image} alt={props.alt} />
+        <img
+          src={props.image}
+          alt={props.alt}
+          loading="lazy"
+          onError={(e) => {
+            const target = e.currentTarget;
+            const fallback = `${import.meta.env.BASE_URL || "/"}images/placeholder.webp`;
+            if (target.src !== fallback) {
+              target.src = fallback;
+            }
+          }}
+        />
         {isVideo && <video src={video} autoPlay muted playsInline loop></video>}
       </a>
     </div>

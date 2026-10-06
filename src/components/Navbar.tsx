@@ -43,7 +43,7 @@ const Navbar = () => {
     <>
       <div className="header">
         <a href="/#" className="navbar-title" data-cursor="disable">
-          <img src="/images/logo.png" alt="Aayush Bhatta Logo" className="navbar-logo-img" />
+          <img src={`${import.meta.env.BASE_URL || "/"}images/logo.png`} alt="Aayush Bhatta Logo" className="navbar-logo-img" />
           <span>AAYUSH</span>
         </a>
         <a

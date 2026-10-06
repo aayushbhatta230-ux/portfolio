@@ -86,6 +86,9 @@ const Scene = () => {
       window.addEventListener("resize", () =>
         handleResize(renderer, camera, canvasDiv, loadedChar)
       );
+    }).catch((err) => {
+      console.error("Error loading character:", err);
+      progress.clear();
     });
 
     let mouse = { x: 0, y: 0 },
