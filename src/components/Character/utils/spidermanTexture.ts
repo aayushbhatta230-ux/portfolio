@@ -150,18 +150,29 @@ export function createSpiderManTexture(): THREE.CanvasTexture {
 export function applyAayushTraits(character: THREE.Object3D) {
   const spiderTexture = createSpiderManTexture();
 
-  // Natural, enhanced skin tone matching Aayush's photo (not overly bright/saturated)
-  const skinMaterial = new THREE.MeshStandardMaterial({
-    color: new THREE.Color("#ad7852"),
-    roughness: 0.70,
+  // Bright, radiant natural warm wheatish/peach skin tone matching Aayush's face traits
+  const skinMaterial = new THREE.MeshPhysicalMaterial({
+    color: new THREE.Color("#f2cdb2"),
+    roughness: 0.52,
     metalness: 0.0,
+    clearcoat: 0.04,
+    clearcoatRoughness: 0.35,
+    sheen: 0.45,
+    sheenRoughness: 0.5,
+    sheenColor: new THREE.Color("#fff2e8"),
   });
 
-  // Natural dark espresso / black hair
+  // Natural deep dark textured hair matching Aayush's modern crop
   const hairMaterial = new THREE.MeshStandardMaterial({
-    color: new THREE.Color("#161618"),
-    roughness: 0.78,
-    metalness: 0.05,
+    color: new THREE.Color("#101012"),
+    roughness: 0.58,
+    metalness: 0.08,
+  });
+
+  // Distinct dark defined eyebrows matching Aayush's brow traits
+  const eyebrowMaterial = new THREE.MeshStandardMaterial({
+    color: new THREE.Color("#121214"),
+    roughness: 0.75,
   });
 
   // Dark olive / khaki athletic cargo shorts matching the photo
@@ -204,7 +215,24 @@ export function applyAayushTraits(character: THREE.Object3D) {
         child.material = spidermanMaterial;
         child.material.needsUpdate = true;
       }
-      // Skin nodes -> Face (Plane.007), Hands (Mesh.002), Neck (Plane.005), Ears (Plane.003)
+      // Defined Eyebrows matching Aayush's traits
+      else if (
+        name.includes("eyebrow") ||
+        parentName.includes("eyebrow")
+      ) {
+        child.material = eyebrowMaterial;
+        child.material.needsUpdate = true;
+      }
+      // Hair -> Natural dark crop
+      else if (
+        name.includes("hair") ||
+        parentName.includes("hair") ||
+        name.includes("pcube3")
+      ) {
+        child.material = hairMaterial;
+        child.material.needsUpdate = true;
+      }
+      // Skin nodes -> Face (Plane.007 / Face.002), Hands (Mesh.002 / Hand), Neck (Plane.005 / Neck), Ears (Plane.003 / Ear.001)
       else if (
         name.includes("hand") ||
         parentName.includes("hand") ||
@@ -222,15 +250,6 @@ export function applyAayushTraits(character: THREE.Object3D) {
         matName.includes("skin")
       ) {
         child.material = skinMaterial;
-        child.material.needsUpdate = true;
-      }
-      // Hair -> Natural dark wavy hair
-      else if (
-        name.includes("hair") ||
-        parentName.includes("hair") ||
-        name.includes("pcube3")
-      ) {
-        child.material = hairMaterial;
         child.material.needsUpdate = true;
       }
       // Pants / Shorts -> Dark olive athletic shorts
