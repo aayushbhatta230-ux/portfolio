@@ -1,6 +1,7 @@
 # Aayush Bhatta — Interactive 3D Portfolio 🚀
 
-> **Live Portfolio:** [https://aayushbhatta230-ux.github.io/portfolio/](https://aayushbhatta230-ux.github.io/portfolio/)  
+> **Live Custom Domain:** [https://aayushifty.com.np/](https://aayushifty.com.np/)  
+> **GitHub Pages Mirror:** [https://aayushbhatta230-ux.github.io/portfolio/](https://aayushbhatta230-ux.github.io/portfolio/)  
 > **Profile & System Showcase:** [https://github.com/aayushbhatta230-ux](https://github.com/aayushbhatta230-ux)
 
 An interactive, high-performance 3D developer portfolio for **Aayush Bhatta** (@aayushifty) — Grade 12 Systems & AI developer, athlete, and musician based in Kathmandu, Nepal.

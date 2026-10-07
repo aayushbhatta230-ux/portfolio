@@ -61,8 +61,9 @@ export function setCharTimeline(
     }
   });
   let neckBone = character?.getObjectByName("spine005");
-  if (window.innerWidth > 1024) {
-    if (character) {
+  const isDesktop = window.innerWidth > 1024;
+  if (character) {
+    if (isDesktop) {
       tl1
         .fromTo(character.rotation, { y: 0 }, { y: 0.7, duration: 1 }, 0)
         .to(camera.position, { z: 22 }, 0)
@@ -117,17 +118,35 @@ export function setCharTimeline(
         )
         .fromTo(".whatIDO", { y: 0 }, { y: "15%", duration: 2 }, 0)
         .to(character.rotation, { x: -0.04, duration: 2, delay: 1 }, 0);
-    }
-  } else {
-    if (character) {
-      const tM2 = gsap.timeline({
-        scrollTrigger: {
-          trigger: ".what-box-in",
-          start: "top 70%",
-          end: "bottom top",
-        },
-      });
-      tM2.to(".what-box-in", { display: "flex", duration: 0.1, delay: 0 }, 0);
+    } else {
+      // Full cinematic 3D scroll animations on mobile devices!
+      tl1
+        .fromTo(character.rotation, { y: 0 }, { y: 0.45, duration: 1 }, 0)
+        .to(camera.position, { z: 25 }, 0)
+        .fromTo(".character-model", { y: "0%" }, { y: "5%", duration: 1 }, 0)
+        .to(".landing-container", { opacity: 0, duration: 0.5 }, 0)
+        .fromTo(".about-me", { opacity: 0, y: "30px" }, { opacity: 1, y: "0px", duration: 0.8 }, 0);
+
+      tl2
+        .to(
+          camera.position,
+          { z: 82, y: 8.6, duration: 5, delay: 1.5, ease: "power2.inOut" },
+          0
+        )
+        .to(".about-section", { opacity: 0, duration: 2, delay: 1 }, 0)
+        .to(character.rotation, { y: 0.92, x: 0.12, delay: 1.8, duration: 2 }, 0)
+        .to(neckBone!.rotation, { x: 0.6, delay: 1.8, duration: 2 }, 0)
+        .to(monitor.material, { opacity: 1, duration: 0.8, delay: 2 }, 0)
+        .to(screenLight.material, { opacity: 1, duration: 0.8, delay: 2.5 }, 0)
+        .to(monitor.position, { y: 0, z: 0, delay: 1, duration: 2 }, 0);
+
+      tl3
+        .fromTo(
+          ".character-model",
+          { y: "5%" },
+          { y: "-100%", duration: 3, ease: "none", delay: 0.5 },
+          0
+        );
     }
   }
 }

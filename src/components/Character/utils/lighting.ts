@@ -3,8 +3,8 @@ import { RGBELoader } from "three-stdlib";
 import { gsap } from "gsap";
 
 const setLighting = (scene: THREE.Scene) => {
-  // Main front key light to illuminate face and skin naturally with flattering warmth
-  const keyLight = new THREE.DirectionalLight(0xfff6ee, 0);
+  // Balanced warm key light to illuminate face naturally without blowout
+  const keyLight = new THREE.DirectionalLight(0xffeedd, 0);
   keyLight.intensity = 0;
   keyLight.position.set(1.5, 14, 18);
   keyLight.castShadow = true;
@@ -12,12 +12,12 @@ const setLighting = (scene: THREE.Scene) => {
   keyLight.shadow.mapSize.height = 1024;
   scene.add(keyLight);
 
-  // Soft ambient fill light for natural skin tone warmth and soft shadows
-  const ambientLight = new THREE.AmbientLight(0xfff0e4, 0);
+  // Soft ambient fill light for authentic skin warmth
+  const ambientLight = new THREE.AmbientLight(0xffecd8, 0);
   scene.add(ambientLight);
 
-  // Rim back light for subtle silhouette separation
-  const rimLight = new THREE.DirectionalLight(0xdde8ff, 0);
+  // Gentle rim back light for separation
+  const rimLight = new THREE.DirectionalLight(0xcad8f0, 0);
   rimLight.intensity = 0;
   rimLight.position.set(-2, 10, -4);
   scene.add(rimLight);
@@ -49,28 +49,28 @@ const setLighting = (scene: THREE.Scene) => {
   const ease = "power2.inOut";
   function turnOnLights() {
     gsap.to(scene, {
-      environmentIntensity: 0.72,
+      environmentIntensity: 0.45,
       duration: duration,
       ease: ease,
     });
     gsap.to(keyLight, {
-      intensity: 1.35,
+      intensity: 0.75,
       duration: duration,
       ease: ease,
     });
     gsap.to(ambientLight, {
-      intensity: 0.65,
+      intensity: 0.4,
       duration: duration,
       ease: ease,
     });
     gsap.to(rimLight, {
-      intensity: 0.75,
+      intensity: 0.35,
       duration: duration,
       ease: ease,
     });
     gsap.to(".character-rim", {
       y: "55%",
-      opacity: 1,
+      opacity: 0.7,
       delay: 0.2,
       duration: 2,
     });

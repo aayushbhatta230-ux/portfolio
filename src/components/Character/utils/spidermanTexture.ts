@@ -150,16 +150,11 @@ export function createSpiderManTexture(): THREE.CanvasTexture {
 export function applyAayushTraits(character: THREE.Object3D) {
   const spiderTexture = createSpiderManTexture();
 
-  // Bright, radiant natural warm wheatish/peach skin tone matching Aayush's face traits
-  const skinMaterial = new THREE.MeshPhysicalMaterial({
-    color: new THREE.Color("#f2cdb2"),
-    roughness: 0.52,
+  // Natural, authentic warm golden-wheatish skin tone matching Aayush's photo
+  const skinMaterial = new THREE.MeshStandardMaterial({
+    color: new THREE.Color("#d59e78"),
+    roughness: 0.68,
     metalness: 0.0,
-    clearcoat: 0.04,
-    clearcoatRoughness: 0.35,
-    sheen: 0.45,
-    sheenRoughness: 0.5,
-    sheenColor: new THREE.Color("#fff2e8"),
   });
 
   // Natural deep dark textured hair matching Aayush's modern crop
