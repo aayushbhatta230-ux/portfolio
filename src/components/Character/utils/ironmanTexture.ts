@@ -2,87 +2,94 @@ import * as THREE from "three";
 
 /**
  * Creates the high-tech 3D "AAYUSHIFTY" Armored Insignia Plate
- * that attaches directly to the character's upper chest armor.
+ * scaled to full chest proportions (width: 3.6 units, height: 0.95 units).
  */
 export function create3DAayushiftyInsignia(): THREE.Mesh {
   const canvas = document.createElement("canvas");
-  canvas.width = 1024;
-  canvas.height = 256;
+  canvas.width = 2048;
+  canvas.height = 512;
   const ctx = canvas.getContext("2d")!;
 
   const eCanvas = document.createElement("canvas");
-  eCanvas.width = 1024;
-  eCanvas.height = 256;
+  eCanvas.width = 2048;
+  eCanvas.height = 512;
   const eCtx = eCanvas.getContext("2d")!;
   eCtx.fillStyle = "#000000";
-  eCtx.fillRect(0, 0, 1024, 256);
+  eCtx.fillRect(0, 0, 2048, 512);
 
   // Carbon-titanium dark brushed backing
-  const grad = ctx.createLinearGradient(0, 0, 1024, 256);
-  grad.addColorStop(0, "#161922");
-  grad.addColorStop(0.5, "#252a36");
-  grad.addColorStop(1, "#161922");
+  const grad = ctx.createLinearGradient(0, 0, 2048, 512);
+  grad.addColorStop(0, "#12151e");
+  grad.addColorStop(0.5, "#222736");
+  grad.addColorStop(1, "#12151e");
   ctx.fillStyle = grad;
   ctx.beginPath();
-  ctx.roundRect(16, 16, 992, 224, 24);
+  ctx.roundRect(32, 32, 1984, 448, 48);
   ctx.fill();
 
   // Polished Gold Titanium Bevel Border
-  ctx.lineWidth = 10;
-  const goldBorder = ctx.createLinearGradient(0, 0, 1024, 0);
+  ctx.lineWidth = 18;
+  const goldBorder = ctx.createLinearGradient(0, 0, 2048, 0);
   goldBorder.addColorStop(0, "#c69214");
-  goldBorder.addColorStop(0.3, "#ffd700");
-  goldBorder.addColorStop(0.7, "#e5b80b");
+  goldBorder.addColorStop(0.25, "#ffd700");
+  goldBorder.addColorStop(0.5, "#fff0a0");
+  goldBorder.addColorStop(0.75, "#ffd700");
   goldBorder.addColorStop(1, "#a8740d");
   ctx.strokeStyle = goldBorder;
   ctx.stroke();
 
-  // Corner titanium mounting bolts
+  // Corner titanium mounting rivets
   ctx.fillStyle = "#cbd5e1";
-  [[48, 48], [976, 48], [48, 208], [976, 208]].forEach(([bx, by]) => {
+  [[96, 96], [1952, 96], [96, 416], [1952, 416]].forEach(([bx, by]) => {
     ctx.beginPath();
-    ctx.arc(bx, by, 7, 0, Math.PI * 2);
+    ctx.arc(bx, by, 14, 0, Math.PI * 2);
     ctx.fill();
+    ctx.strokeStyle = "#475569";
+    ctx.lineWidth = 4;
+    ctx.stroke();
   });
 
   // Top cyan micro-HUD power rail
   ctx.fillStyle = "#00f5ff";
-  ctx.fillRect(180, 36, 664, 4);
+  ctx.fillRect(360, 68, 1328, 8);
 
-  // Bold Futuristic "AAYUSHIFTY" Typography
-  ctx.font = "900 86px 'Outfit', 'Montserrat', 'Arial Black', sans-serif";
+  // Bold Giant "AAYUSHIFTY" Typography
+  ctx.font = "900 170px 'Outfit', 'Montserrat', 'Arial Black', sans-serif";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
 
-  // Drop shadow
+  // Deep Drop Shadow
   ctx.fillStyle = "#000000";
-  ctx.fillText("AAYUSHIFTY", 514, 134);
+  ctx.fillText("AAYUSHIFTY", 1028, 268);
 
-  // Radiant Gold Letters
-  const textGrad = ctx.createLinearGradient(0, 80, 0, 180);
+  // Radiant Gold Gradient Fill
+  const textGrad = ctx.createLinearGradient(0, 160, 0, 360);
   textGrad.addColorStop(0, "#ffffff");
-  textGrad.addColorStop(0.25, "#fff0a0");
-  textGrad.addColorStop(0.65, "#ffd700");
-  textGrad.addColorStop(1, "#d4af37");
+  textGrad.addColorStop(0.2, "#fff8c0");
+  textGrad.addColorStop(0.55, "#ffd700");
+  textGrad.addColorStop(0.85, "#e5b80b");
+  textGrad.addColorStop(1, "#b8860b");
   ctx.fillStyle = textGrad;
-  ctx.fillText("AAYUSHIFTY", 512, 130);
+  ctx.fillText("AAYUSHIFTY", 1024, 260);
 
-  // Subtitle: STARK INDUSTRIES // MARK 85
-  ctx.font = "bold 20px monospace";
-  ctx.fillStyle = "rgba(226, 232, 240, 0.75)";
-  ctx.fillText("// MARK 85 NANOTECH //", 512, 202);
+  // Subtitle: STARK INDUSTRIES // MARK 85 NANOTECH
+  ctx.font = "bold 38px monospace";
+  ctx.fillStyle = "rgba(226, 232, 240, 0.85)";
+  ctx.fillText("// MARK 85 NANOTECH //", 1024, 404);
 
   // Emissive Map for glowing cyan laser outline
-  eCtx.font = "900 86px 'Outfit', 'Montserrat', 'Arial Black', sans-serif";
+  eCtx.font = "900 170px 'Outfit', 'Montserrat', 'Arial Black', sans-serif";
   eCtx.textAlign = "center";
   eCtx.textBaseline = "middle";
   eCtx.strokeStyle = "#00f5ff";
-  eCtx.lineWidth = 8;
+  eCtx.lineWidth = 14;
   eCtx.shadowColor = "#00f5ff";
-  eCtx.shadowBlur = 24;
-  eCtx.strokeText("AAYUSHIFTY", 512, 130);
+  eCtx.shadowBlur = 35;
+  eCtx.strokeText("AAYUSHIFTY", 1024, 260);
+
+  // Glowing cyan rail in emissive
   eCtx.fillStyle = "#00f5ff";
-  eCtx.fillRect(180, 36, 664, 4);
+  eCtx.fillRect(360, 68, 1328, 8);
 
   const texture = new THREE.CanvasTexture(canvas);
   texture.colorSpace = THREE.SRGBColorSpace;
@@ -93,29 +100,30 @@ export function create3DAayushiftyInsignia(): THREE.Mesh {
     map: texture,
     emissiveMap: eTexture,
     emissive: new THREE.Color("#00f5ff"),
-    emissiveIntensity: 1.8,
-    roughness: 0.25,
-    metalness: 0.85,
+    emissiveIntensity: 2.2,
+    roughness: 0.22,
+    metalness: 0.88,
     transparent: true,
   });
 
-  const geo = new THREE.PlaneGeometry(0.78, 0.20);
+  const geo = new THREE.PlaneGeometry(3.6, 0.95);
   const mesh = new THREE.Mesh(geo, mat);
   mesh.name = "aayushiftyInsigniaPlate";
   return mesh;
 }
 
 /**
- * Creates the physical 3D Stark Arc Reactor (Unibeam)
- * that mounts directly onto the character's sternum.
+ * Creates the large, prominent physical 3D Stark Arc Reactor (Unibeam)
+ * scaled to chest proportions (radius: 0.85 units, diameter: 1.7 units).
  */
 export function create3DArcReactor(): THREE.Group {
   const group = new THREE.Group();
   group.name = "starkArcReactor3D";
 
+  const hexRadius = 0.85;
+
   // 1. Chrome Hexagonal Housing Rim
   const hexShape = new THREE.Shape();
-  const hexRadius = 0.22;
   for (let i = 0; i < 6; i++) {
     const angle = (i * Math.PI) / 3 - Math.PI / 6;
     const x = Math.cos(angle) * hexRadius;
@@ -125,9 +133,9 @@ export function create3DArcReactor(): THREE.Group {
   }
   hexShape.closePath();
 
-  // Hole for inner ring
+  // Hole for inner reactor ring
   const holePath = new THREE.Path();
-  holePath.absarc(0, 0, 0.16, 0, Math.PI * 2, true);
+  holePath.absarc(0, 0, 0.62, 0, Math.PI * 2, true);
   hexShape.holes.push(holePath);
 
   const housingGeo = new THREE.ShapeGeometry(hexShape);
@@ -138,11 +146,11 @@ export function create3DArcReactor(): THREE.Group {
     side: THREE.DoubleSide,
   });
   const housingMesh = new THREE.Mesh(housingGeo, housingMat);
-  housingMesh.position.z = 0.01;
+  housingMesh.position.z = 0.02;
   group.add(housingMesh);
 
   // 2. Polished Gold Containment Bezel
-  const goldRingGeo = new THREE.RingGeometry(0.125, 0.16, 32);
+  const goldRingGeo = new THREE.RingGeometry(0.48, 0.62, 32);
   const goldRingMat = new THREE.MeshStandardMaterial({
     color: new THREE.Color("#d4af37"),
     roughness: 0.22,
@@ -150,42 +158,42 @@ export function create3DArcReactor(): THREE.Group {
     side: THREE.DoubleSide,
   });
   const goldRingMesh = new THREE.Mesh(goldRingGeo, goldRingMat);
-  goldRingMesh.position.z = 0.015;
+  goldRingMesh.position.z = 0.035;
   group.add(goldRingMesh);
 
-  // 3. 8 Copper Magnetic Induction Coils
-  const coilGeo = new THREE.BoxGeometry(0.022, 0.038, 0.018);
+  // 3. 10 Copper Magnetic Induction Coils around the ring
+  const coilGeo = new THREE.BoxGeometry(0.08, 0.15, 0.08);
   const coilMat = new THREE.MeshStandardMaterial({
     color: new THREE.Color("#d97706"),
-    roughness: 0.3,
+    roughness: 0.28,
     metalness: 0.85,
   });
-  for (let i = 0; i < 8; i++) {
-    const angle = (i * Math.PI) / 4;
+  for (let i = 0; i < 10; i++) {
+    const angle = (i * 2 * Math.PI) / 10;
     const coil = new THREE.Mesh(coilGeo, coilMat);
-    coil.position.x = Math.cos(angle) * 0.142;
-    coil.position.y = Math.sin(angle) * 0.142;
-    coil.position.z = 0.022;
+    coil.position.x = Math.cos(angle) * 0.55;
+    coil.position.y = Math.sin(angle) * 0.55;
+    coil.position.z = 0.055;
     coil.rotation.z = angle + Math.PI / 2;
     group.add(coil);
   }
 
   // 4. Glowing Cyan Plasma Reaction Core (Unibeam)
-  const coreGeo = new THREE.CircleGeometry(0.125, 32);
+  const coreGeo = new THREE.CircleGeometry(0.48, 32);
   const coreMat = new THREE.MeshBasicMaterial({
     color: new THREE.Color("#00f5ff"),
     side: THREE.DoubleSide,
   });
   const coreMesh = new THREE.Mesh(coreGeo, coreMat);
-  coreMesh.position.z = 0.025;
+  coreMesh.position.z = 0.06;
   group.add(coreMesh);
 
-  // 5. White Hot Plasma Center Tri-Aperture
+  // 5. White-Hot Plasma Center Tri-Aperture
   const triShape = new THREE.Shape();
   for (let i = 0; i < 3; i++) {
     const angle = (i * 2 * Math.PI) / 3 - Math.PI / 2;
-    const tx = Math.cos(angle) * 0.055;
-    const ty = Math.sin(angle) * 0.055;
+    const tx = Math.cos(angle) * 0.22;
+    const ty = Math.sin(angle) * 0.22;
     if (i === 0) triShape.moveTo(tx, ty);
     else triShape.lineTo(tx, ty);
   }
@@ -196,20 +204,60 @@ export function create3DArcReactor(): THREE.Group {
     side: THREE.DoubleSide,
   });
   const triMesh = new THREE.Mesh(triGeo, triMat);
-  triMesh.position.z = 0.03;
+  triMesh.position.z = 0.075;
   group.add(triMesh);
 
-  // 6. Point Light illuminating armor & hands
-  const light = new THREE.PointLight(0x00f5ff, 1.3, 4.5, 2);
-  light.position.set(0, 0, 0.12);
+  // 6. Point Light illuminating the armor and hands
+  const light = new THREE.PointLight(0x00f5ff, 2.5, 9.0, 2);
+  light.position.set(0, 0, 0.25);
   group.add(light);
 
   return group;
 }
 
 /**
- * Sculpts the hair mesh vertices at runtime to create a true,
- * physical middle-part curtain bangs hairstyle matching Aayush's selfie.
+ * Creates 3D stylized Middle-Part Curtain Bangs lock meshes
+ * attached to the head bone (spine006) to frame the forehead naturally.
+ */
+export function create3DCurtainBangs(): THREE.Group {
+  const group = new THREE.Group();
+  group.name = "curtainBangs3D";
+
+  const hairMat = new THREE.MeshStandardMaterial({
+    color: new THREE.Color("#141210"),
+    roughness: 0.72,
+    metalness: 0.05,
+    side: THREE.DoubleSide,
+  });
+
+  // Left Curtain Lock (curves down and outward to the left)
+  const leftLockCurve = new THREE.CubicBezierCurve3(
+    new THREE.Vector3(-0.06, 1.74, 1.05),
+    new THREE.Vector3(-0.25, 1.68, 1.12),
+    new THREE.Vector3(-0.45, 1.48, 1.08),
+    new THREE.Vector3(-0.55, 1.32, 0.95)
+  );
+  const leftLockGeo = new THREE.TubeGeometry(leftLockCurve, 16, 0.11, 8, false);
+  const leftMesh = new THREE.Mesh(leftLockGeo, hairMat);
+  group.add(leftMesh);
+
+  // Right Curtain Lock (curves down and outward to the right)
+  const rightLockCurve = new THREE.CubicBezierCurve3(
+    new THREE.Vector3(0.06, 1.74, 1.05),
+    new THREE.Vector3(0.25, 1.68, 1.12),
+    new THREE.Vector3(0.45, 1.48, 1.08),
+    new THREE.Vector3(0.55, 1.32, 0.95)
+  );
+  const rightLockGeo = new THREE.TubeGeometry(rightLockCurve, 16, 0.11, 8, false);
+  const rightMesh = new THREE.Mesh(rightLockGeo, hairMat);
+  group.add(rightMesh);
+
+  return group;
+}
+
+/**
+ * Sculpts the hair mesh vertices at runtime to create a dramatic,
+ * true inverted-V middle-part curtain bangs opening matching Aayush's selfie.
  */
 export function sculptMiddlePartHair(hairMesh: THREE.Mesh) {
   if (!hairMesh.geometry || !hairMesh.geometry.attributes.position) return;
@@ -221,19 +269,20 @@ export function sculptMiddlePartHair(hairMesh: THREE.Mesh) {
     const z = pos.getZ(i);
 
     // Front forehead and bangs region
-    if (z > 0.03 && y > 0.02) {
-      if (Math.abs(x) < 0.022) {
-        // Center part scalp valley: indent inward and slightly upward
-        pos.setZ(i, z - 0.02);
-        pos.setY(i, y + 0.008);
-      } else if (x >= 0.022) {
-        // Right curtain lock: fan outward and curve forward with volume
-        pos.setX(i, 0.022 + (x - 0.022) * 1.25);
-        pos.setZ(i, z + 0.007);
-      } else if (x <= -0.022) {
-        // Left curtain lock: fan outward and curve forward with volume
-        pos.setX(i, -0.022 + (x + 0.022) * 1.25);
-        pos.setZ(i, z + 0.007);
+    if (z > 0.05) {
+      const absX = Math.abs(x);
+      if (absX < 0.038) {
+        // Inverted-V center parting: lift upward and push back into scalp
+        const factor = 1 - absX / 0.038;
+        pos.setY(i, y + 0.038 * factor);
+        pos.setZ(i, z - 0.035 * factor);
+      } else if (absX >= 0.038 && absX < 0.095) {
+        // Curtain locks on sides: drape down and forward with volume
+        const sideFactor = Math.sin(((absX - 0.038) / 0.057) * Math.PI);
+        pos.setY(i, y - 0.024 * sideFactor);
+        pos.setZ(i, z + 0.020 * sideFactor);
+        if (x > 0) pos.setX(i, x + 0.008 * sideFactor);
+        else pos.setX(i, x - 0.008 * sideFactor);
       }
     }
   }
@@ -243,18 +292,17 @@ export function sculptMiddlePartHair(hairMesh: THREE.Mesh) {
 }
 
 /**
- * Transforms the character model into Iron Man Mark 85
- * while ensuring authentic identity:
- * 1. Face: Natural Nepali golden-wheatish skin tone (fixes the chalk-white bug by removing vertex colors)
- * 2. Hair: Sculpted middle-part curtain hairstyle
- * 3. Armor: Hot-rod crimson & gold with 3D glowing Arc Reactor and "AAYUSHIFTY" insignia plate
+ * Transforms the character model into Iron Man Mark 85:
+ * 1. Face: Natural Nepali golden-wheatish skin tone (removed white vertex colors)
+ * 2. Hair: Sculpted middle-part curtain hairstyle with 3D curtain bang locks
+ * 3. Armor: Hot-rod crimson & gold with large 3D Arc Reactor and prominent "AAYUSHIFTY" plate
  */
 export function applyAayushIronMan(character: THREE.Object3D) {
   // 1. AAYUSH'S AUTHENTIC SKIN TONE
   // Natural warm South Asian / Nepali golden-wheatish complexion (sampled from selfie)
   const skinMaterial = new THREE.MeshStandardMaterial({
-    color: new THREE.Color("#9b6642"), // Natural warm golden-tan wheatish tone
-    roughness: 0.84,                  // Soft matte human skin texture without synthetic shine
+    color: new THREE.Color("#9b6642"),
+    roughness: 0.84,
     metalness: 0.0,
   });
 
@@ -390,7 +438,6 @@ export function applyAayushIronMan(character: THREE.Object3D) {
         // keep original eye texture/material
       }
       // Check if mesh is Face, Neck, or Ears -> AUTHENTIC SKIN!
-      // This catches Plane.007, Plane007, Neck, Ear.001, etc.
       else if (
         name.includes("007") ||
         parentName.includes("007") ||
@@ -406,8 +453,6 @@ export function applyAayushIronMan(character: THREE.Object3D) {
         matName.includes("skin") ||
         (child.morphTargetInfluences && child.morphTargetInfluences.length > 0)
       ) {
-        // CRITICAL BUG FIX: Plane.007 has vertex colors attribute 'color' with all 1.0 (white).
-        // Removing the 'color' attribute ensures Three.js renders the genuine skinMaterial color!
         if (child.geometry && child.geometry.attributes && child.geometry.attributes.color) {
           child.geometry.deleteAttribute("color");
         }
@@ -417,37 +462,30 @@ export function applyAayushIronMan(character: THREE.Object3D) {
     }
   });
 
-  // 3. ATTACH PHYSICAL 3D ARC REACTOR & "AAYUSHIFTY" INSIGNIA PLATE
-  // Attach to upper torso bone (spine003 or spine004 or character root)
-  const chestBone =
-    character.getObjectByName("spine003") ||
-    character.getObjectByName("spine004") ||
-    character.getObjectByName("spine005") ||
-    character;
+  // 3. ATTACH PHYSICAL 3D ARC REACTOR & PROMINENT "AAYUSHIFTY" INSIGNIA PLATE
+  const spine003 = character.getObjectByName("spine003");
+  const headBone = character.getObjectByName("spine006");
 
-  const existingReactor = character.getObjectByName("starkArcReactor3D");
-  if (!existingReactor) {
+  // Attach 3D Curtain Bang Locks to Head Bone
+  if (headBone && !headBone.getObjectByName("curtainBangs3D")) {
+    const curtainBangs = create3DCurtainBangs();
+    headBone.add(curtainBangs);
+  }
+
+  // Attach Arc Reactor & Insignia Plate to Chest Bone (spine003)
+  if (spine003 && !spine003.getObjectByName("starkArcReactor3D")) {
     const arcReactor = create3DArcReactor();
     const insigniaPlate = create3DAayushiftyInsignia();
 
-    if (chestBone && chestBone.name.includes("spine003")) {
-      // Position on spine003 (sternum center)
-      arcReactor.position.set(0, 0.72, 0.74);
-      arcReactor.rotation.x = -0.08;
+    // Position "AAYUSHIFTY" prominently across upper chest
+    insigniaPlate.position.set(0, 0.92, 0.82);
+    insigniaPlate.rotation.x = -0.16;
 
-      insigniaPlate.position.set(0, 1.04, 0.76);
-      insigniaPlate.rotation.x = -0.14;
+    // Position Arc Reactor directly below insignia on sternum center
+    arcReactor.position.set(0, -0.05, 0.78);
+    arcReactor.rotation.x = -0.10;
 
-      chestBone.add(arcReactor);
-      chestBone.add(insigniaPlate);
-    } else {
-      // Fallback global positioning on character
-      arcReactor.position.set(0, 8.4, 0.85);
-      insigniaPlate.position.set(0, 9.4, 0.88);
-      insigniaPlate.rotation.x = -0.12;
-
-      character.add(arcReactor);
-      character.add(insigniaPlate);
-    }
+    spine003.add(insigniaPlate);
+    spine003.add(arcReactor);
   }
 }
