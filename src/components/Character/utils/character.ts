@@ -3,7 +3,7 @@ import { DRACOLoader, GLTF, GLTFLoader } from "three-stdlib";
 import { setCharTimeline, setAllTimeline } from "../../utils/GsapScroll";
 import { decryptFile } from "./decrypt";
 
-import { applyAayushTraits } from "./spidermanTexture";
+import { applyAayushIronMan } from "./ironmanTexture";
 
 const setCharacter = (
   renderer: THREE.WebGLRenderer,
@@ -30,7 +30,7 @@ const setCharacter = (
           blobUrl,
           async (gltf) => {
             character = gltf.scene;
-            applyAayushTraits(character);
+            applyAayushIronMan(character);
             await renderer.compileAsync(character, camera, scene);
             character.traverse((child: any) => {
               if (child.isMesh) {
