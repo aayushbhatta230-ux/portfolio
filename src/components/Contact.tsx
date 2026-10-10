@@ -51,13 +51,13 @@ const Contact = () => {
               GitHub <MdArrowOutward />
             </a>
             <a
-              href="https://aayushifty.com.np/"
+              href="https://aayushbhatta230-ux.github.io/portfolio/"
               target="_blank"
               rel="noopener noreferrer"
               data-cursor="disable"
               className="contact-social"
             >
-              Custom Domain (aayushifty.com.np) <MdArrowOutward />
+              Live Portfolio <MdArrowOutward />
             </a>
             <a
               href="https://www.tiktok.com/@aayushifty"
