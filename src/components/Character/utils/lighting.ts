@@ -54,12 +54,12 @@ const setLighting = (scene: THREE.Scene) => {
       ease: ease,
     });
     gsap.to(keyLight, {
-      intensity: 0.75,
+      intensity: 0.58,
       duration: duration,
       ease: ease,
     });
     gsap.to(ambientLight, {
-      intensity: 0.4,
+      intensity: 0.32,
       duration: duration,
       ease: ease,
     });

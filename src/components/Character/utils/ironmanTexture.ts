@@ -5,6 +5,7 @@ import * as THREE from "three";
  * nanotech armor texture featuring:
  * - Hot-rod crimson red metallic lacquer
  * - Polished gold titanium clavicle, shoulder & rib plates
+ * - Prominent "AAYUSHIFTY" insignia laser-etched onto the chest armor
  * - The iconic glowing Stark Arc Reactor (Unibeam) with copper induction coils
  * - Carbon-fiber composite flex joint paneling
  */
@@ -20,13 +21,12 @@ export function createIronManChestTexture(): {
   canvas.height = size;
   const ctx = canvas.getContext("2d")!;
 
-  // Fallback if 2D context unavailable
   if (!ctx) {
     const fallback = new THREE.CanvasTexture(document.createElement("canvas"));
     return { diffuse: fallback, emissive: fallback };
   }
 
-  // --- 2. EMISSIVE TEXTURE CANVAS (for glowing Arc Reactor & conduits) ---
+  // --- 2. EMISSIVE TEXTURE CANVAS (for glowing Arc Reactor & insignia) ---
   const emissiveCanvas = document.createElement("canvas");
   emissiveCanvas.width = size;
   emissiveCanvas.height = size;
@@ -44,7 +44,7 @@ export function createIronManChestTexture(): {
   ctx.fillStyle = bgGrad;
   ctx.fillRect(0, 0, size, size);
 
-  // Subtle metallic horizontal micro-grain
+  // Subtle metallic micro-grain
   ctx.save();
   ctx.fillStyle = "rgba(255, 255, 255, 0.02)";
   for (let y = 0; y < size; y += 4) {
@@ -52,7 +52,7 @@ export function createIronManChestTexture(): {
   }
   ctx.restore();
 
-  // Dark ballistic carbon-fiber side flanks (underarms & lats)
+  // Dark ballistic carbon-fiber flanks (underarms & lats)
   ctx.save();
   ctx.fillStyle = "#15171d";
   // Left flank
@@ -72,7 +72,7 @@ export function createIronManChestTexture(): {
   ctx.closePath();
   ctx.fill();
 
-  // Carbon weave texture on flanks
+  // Carbon weave texture
   ctx.strokeStyle = "rgba(255, 255, 255, 0.04)";
   ctx.lineWidth = 2;
   for (let i = -size; i < size; i += 24) {
@@ -83,10 +83,10 @@ export function createIronManChestTexture(): {
   }
   ctx.restore();
 
-  // Pectoral Armor Main Plates (Crimson lacquer with bevels)
   const cx = size / 2; // 1024
   const cy = 760;     // Chest center
 
+  // Pectoral Armor Main Plates (Crimson lacquer with bevels)
   ctx.save();
   // Left Pectoral Plate
   ctx.beginPath();
@@ -134,7 +134,7 @@ export function createIronManChestTexture(): {
   goldGrad.addColorStop(0.75, "#e5b80b");
   goldGrad.addColorStop(1, "#a8740d");
 
-  // Left Gold Shoulder/Clavicle Plate
+  // Left Gold Shoulder Plate
   ctx.beginPath();
   ctx.moveTo(cx - 80, 0);
   ctx.lineTo(cx - 560, 0);
@@ -148,7 +148,7 @@ export function createIronManChestTexture(): {
   ctx.lineWidth = 8;
   ctx.stroke();
 
-  // Right Gold Shoulder/Clavicle Plate
+  // Right Gold Shoulder Plate
   ctx.beginPath();
   ctx.moveTo(cx + 80, 0);
   ctx.lineTo(cx + 560, 0);
@@ -170,12 +170,81 @@ export function createIronManChestTexture(): {
   ctx.stroke();
   ctx.restore();
 
+  // ==============================================================
+  // "AAYUSHIFTY" INSIGNIA ON CHEST ARMOR
+  // ==============================================================
+  const textY = cy - 260; // Right across the upper chest armor above Arc Reactor
+
+  // 1. Armored Titanium Nameplate Banner
+  ctx.save();
+  ctx.beginPath();
+  ctx.roundRect(cx - 320, textY - 48, 640, 80, 12);
+  const bannerGrad = ctx.createLinearGradient(cx - 320, textY - 48, cx + 320, textY + 32);
+  bannerGrad.addColorStop(0, "#1c1f26");
+  bannerGrad.addColorStop(0.5, "#2a2e39");
+  bannerGrad.addColorStop(1, "#1c1f26");
+  ctx.fillStyle = bannerGrad;
+  ctx.fill();
+  ctx.lineWidth = 4;
+  ctx.strokeStyle = "#e5b80b"; // Gold border
+  ctx.stroke();
+
+  // Subtle corner rivets on nameplate
+  ctx.fillStyle = "#cbd5e1";
+  [
+    [cx - 304, textY - 34],
+    [cx + 304, textY - 34],
+    [cx - 304, textY + 20],
+    [cx + 304, textY + 20],
+  ].forEach(([rx, ry]) => {
+    ctx.beginPath();
+    ctx.arc(rx, ry, 4, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  // 2. Bold "AAYUSHIFTY" Metallic Gold/White Typography
+  ctx.font = "900 50px 'Outfit', 'Montserrat', 'Arial Black', sans-serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+
+  // Drop shadow
+  ctx.fillStyle = "#000000";
+  ctx.fillText("AAYUSHIFTY", cx + 2, textY + 2);
+
+  // Metallic gold fill
+  const textGrad = ctx.createLinearGradient(0, textY - 25, 0, textY + 25);
+  textGrad.addColorStop(0, "#ffffff");
+  textGrad.addColorStop(0.3, "#fff0a0");
+  textGrad.addColorStop(0.6, "#ffd700");
+  textGrad.addColorStop(1, "#d4af37");
+  ctx.fillStyle = textGrad;
+  ctx.fillText("AAYUSHIFTY", cx, textY);
+
+  // Subtle cyber cyan accent line above text
+  ctx.fillStyle = "#00f5ff";
+  ctx.fillRect(cx - 180, textY - 38, 360, 3);
+  ctx.restore();
+
+  // Emissive Map for "AAYUSHIFTY": Radiant glowing nanotech letters
+  eCtx.save();
+  eCtx.font = "900 50px 'Outfit', 'Montserrat', 'Arial Black', sans-serif";
+  eCtx.textAlign = "center";
+  eCtx.textBaseline = "middle";
+  eCtx.strokeStyle = "#00f5ff";
+  eCtx.lineWidth = 5;
+  eCtx.shadowColor = "#00f5ff";
+  eCtx.shadowBlur = 24;
+  eCtx.strokeText("AAYUSHIFTY", cx, textY);
+  // Center line glow
+  eCtx.fillStyle = "#00f5ff";
+  eCtx.fillRect(cx - 180, textY - 38, 360, 3);
+  eCtx.restore();
+
   // Abdominal Segmented Nanotech Plating (Below Arc Reactor)
   ctx.save();
   const abYStarts = [cy + 220, cy + 420, cy + 620, cy + 820];
   abYStarts.forEach((abY, idx) => {
     const width = 580 - idx * 55;
-    // Main red plate
     ctx.beginPath();
     ctx.roundRect(cx - width / 2, abY, width, 140, 18);
     const abGrad = ctx.createLinearGradient(cx - width / 2, abY, cx + width / 2, abY + 140);
@@ -255,7 +324,7 @@ export function createIronManChestTexture(): {
     ctx.save();
     ctx.translate(coilX, coilY);
     ctx.rotate(angle);
-    ctx.fillStyle = "#d97706"; // Polished copper
+    ctx.fillStyle = "#d97706";
     ctx.fillRect(-12, -22, 24, 44);
     ctx.strokeStyle = "#78350f";
     ctx.lineWidth = 3;
@@ -291,19 +360,10 @@ export function createIronManChestTexture(): {
   ctx.fill();
   ctx.restore();
 
-  // 5. STARK INDUSTRIES Laser-etched Serial
-  ctx.save();
-  ctx.font = "bold 20px monospace";
-  ctx.fillStyle = "rgba(226, 232, 240, 0.65)";
-  ctx.textAlign = "center";
-  ctx.fillText("STARK IND. // MARK 85", cx, cy - reactorRadius * 1.55);
-  ctx.restore();
-
   // ==============================================================
   // EMISSIVE MAP: Intense Arc Reactor Glow & Energy Conduits
   // ==============================================================
   eCtx.save();
-  // Radial energy flare from the Arc Reactor
   const eCoreGrad = eCtx.createRadialGradient(cx, cy, 5, cx, cy, reactorRadius + 20);
   eCoreGrad.addColorStop(0, "#ffffff");
   eCoreGrad.addColorStop(0.35, "#00f5ff");
@@ -314,7 +374,7 @@ export function createIronManChestTexture(): {
   eCtx.arc(cx, cy, reactorRadius + 20, 0, Math.PI * 2);
   eCtx.fill();
 
-  // Glowing nanotech energy conduits leading to shoulders & clavicle
+  // Glowing nanotech conduits
   eCtx.strokeStyle = "#00f5ff";
   eCtx.lineWidth = 14;
   eCtx.shadowColor = "#00f5ff";
@@ -334,7 +394,7 @@ export function createIronManChestTexture(): {
   eCtx.lineTo(cx + 520, 180);
   eCtx.stroke();
 
-  // Downward abdominal power bus
+  // Downward power bus
   eCtx.beginPath();
   eCtx.moveTo(cx, cy + reactorRadius * 1.1);
   eCtx.lineTo(cx, cy + 980);
@@ -445,40 +505,136 @@ export function createIronManGauntletTexture(): {
 }
 
 /**
+ * Generates a realistic Middle-Part Hair Texture matching Aayush's actual hairstyle:
+ * - Natural deep espresso / dark brown-black tone
+ * - Distinct center parting line
+ * - Left and right flowing curtain bangs with textured strands and soft volume highlights
+ */
+export function createMiddlePartHairTexture(): THREE.CanvasTexture {
+  const size = 1024;
+  const canvas = document.createElement("canvas");
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext("2d")!;
+
+  if (!ctx) {
+    return new THREE.CanvasTexture(document.createElement("canvas"));
+  }
+
+  // Base rich dark espresso / black
+  ctx.fillStyle = "#151311";
+  ctx.fillRect(0, 0, size, size);
+
+  const cx = size / 2;
+
+  // Flowing curtain strands branching left & right from the middle part
+  for (let y = 0; y < size; y += 6) {
+    // Left curtain strand flow (curves down and outward to the left)
+    ctx.strokeStyle = "rgba(44, 36, 30, 0.65)";
+    ctx.lineWidth = 3.5;
+    ctx.beginPath();
+    ctx.moveTo(cx - 18, y);
+    ctx.quadraticCurveTo(cx - 140, y + 25, 0, y + 55);
+    ctx.stroke();
+
+    // Secondary fine hair strand
+    ctx.strokeStyle = "rgba(32, 26, 22, 0.75)";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(cx - 10, y + 3);
+    ctx.quadraticCurveTo(cx - 100, y + 18, 0, y + 35);
+    ctx.stroke();
+
+    // Right curtain strand flow (curves down and outward to the right)
+    ctx.strokeStyle = "rgba(44, 36, 30, 0.65)";
+    ctx.lineWidth = 3.5;
+    ctx.beginPath();
+    ctx.moveTo(cx + 18, y);
+    ctx.quadraticCurveTo(cx + 140, y + 25, size, y + 55);
+    ctx.stroke();
+
+    // Secondary fine hair strand
+    ctx.strokeStyle = "rgba(32, 26, 22, 0.75)";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(cx + 10, y + 3);
+    ctx.quadraticCurveTo(cx + 100, y + 18, size, y + 35);
+    ctx.stroke();
+  }
+
+  // Natural volume highlights on the curve of the curtain locks
+  const leftHighlight = ctx.createLinearGradient(cx - 300, 0, cx - 60, size);
+  leftHighlight.addColorStop(0, "transparent");
+  leftHighlight.addColorStop(0.5, "rgba(80, 64, 52, 0.40)");
+  leftHighlight.addColorStop(1, "transparent");
+  ctx.fillStyle = leftHighlight;
+  ctx.fillRect(cx - 320, 0, 240, size);
+
+  const rightHighlight = ctx.createLinearGradient(cx + 60, 0, cx + 300, size);
+  rightHighlight.addColorStop(0, "transparent");
+  rightHighlight.addColorStop(0.5, "rgba(80, 64, 52, 0.40)");
+  rightHighlight.addColorStop(1, "transparent");
+  ctx.fillStyle = rightHighlight;
+  ctx.fillRect(cx + 80, 0, 240, size);
+
+  // Deep scalp shadow along the center parting line
+  const partGrad = ctx.createLinearGradient(cx - 25, 0, cx + 25, 0);
+  partGrad.addColorStop(0, "transparent");
+  partGrad.addColorStop(0.5, "rgba(8, 7, 6, 0.98)");
+  partGrad.addColorStop(1, "transparent");
+  ctx.fillStyle = partGrad;
+  ctx.fillRect(cx - 25, 0, 50, size);
+
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.wrapS = THREE.RepeatWrapping;
+  tex.wrapT = THREE.RepeatWrapping;
+  tex.needsUpdate = true;
+  return tex;
+}
+
+/**
  * Traverses the loaded character model and dresses it as Iron Man Mark 85
- * while holding Aayush Bhatta's authentic facial identity, skin tone, brows, and hair.
+ * while holding Aayush Bhatta's authentic facial identity:
+ * - Natural golden-olive/wheatish skin tone (sampled from Aayush's selfie)
+ * - Middle-part textured hairstyle
+ * - "AAYUSHIFTY" branded on chest armor
+ * - Glowing Stark Arc Reactor & palm repulsors
  */
 export function applyAayushIronMan(character: THREE.Object3D) {
   const { diffuse: chestDiffuse, emissive: chestEmissive } = createIronManChestTexture();
   const { diffuse: gauntletDiffuse, emissive: gauntletEmissive } = createIronManGauntletTexture();
+  const hairTexture = createMiddlePartHairTexture();
 
-  // 1. AAYUSH'S AUTHENTIC APPEARANCE (Preserved faithfully)
-  // Warm golden-wheatish skin tone matching Aayush's photo
+  // 1. AAYUSH'S AUTHENTIC APPEARANCE
+  // Natural, authentic South Asian / Nepali golden-wheatish skin tone
+  // directly sampled from Aayush's selfie (not washed out or bright/pale)
   const skinMaterial = new THREE.MeshStandardMaterial({
-    color: new THREE.Color("#d59e78"),
-    roughness: 0.68,
+    color: new THREE.Color("#9e6744"), // Rich warm golden-olive wheatish complexion
+    roughness: 0.82,                  // Natural matte skin texture without synthetic shine
     metalness: 0.0,
   });
 
-  // Natural deep dark textured hair matching Aayush's modern crop
+  // Natural textured middle-part hairstyle
   const hairMaterial = new THREE.MeshStandardMaterial({
-    color: new THREE.Color("#101012"),
-    roughness: 0.58,
+    map: hairTexture,
+    color: new THREE.Color("#181412"),
+    roughness: 0.70,
     metalness: 0.08,
   });
 
   // Defined dark natural eyebrows
   const eyebrowMaterial = new THREE.MeshStandardMaterial({
-    color: new THREE.Color("#121214"),
-    roughness: 0.75,
+    color: new THREE.Color("#12100e"),
+    roughness: 0.78,
   });
 
-  // 2. IRON MAN MARK-85 TORSO ARMOR (High-tech metallic crimson & gold with glowing Arc Reactor)
+  // 2. IRON MAN MARK-85 TORSO ARMOR (With glowing Arc Reactor & "AAYUSHIFTY" insignia)
   const ironManChestMaterial = new THREE.MeshStandardMaterial({
     map: chestDiffuse,
     emissiveMap: chestEmissive,
     emissive: new THREE.Color("#00f5ff"),
-    emissiveIntensity: 2.4,
+    emissiveIntensity: 2.2,
     roughness: 0.22,
     metalness: 0.88,
   });
@@ -488,7 +644,7 @@ export function applyAayushIronMan(character: THREE.Object3D) {
     map: gauntletDiffuse,
     emissiveMap: gauntletEmissive,
     emissive: new THREE.Color("#00f5ff"),
-    emissiveIntensity: 2.2,
+    emissiveIntensity: 2.0,
     roughness: 0.25,
     metalness: 0.85,
   });
@@ -523,7 +679,7 @@ export function applyAayushIronMan(character: THREE.Object3D) {
       const parentName = (child.parent?.name || "").toLowerCase();
       const matName = (child.material?.name || "").toLowerCase();
 
-      // --- TORSO / UPPER BODY: IRON MAN SUIT WITH ARC REACTOR ---
+      // --- TORSO / UPPER BODY: IRON MAN SUIT WITH "AAYUSHIFTY" & ARC REACTOR ---
       if (
         name === "body.shirt" ||
         name.includes("shirt") ||
@@ -550,7 +706,7 @@ export function applyAayushIronMan(character: THREE.Object3D) {
         child.material = eyebrowMaterial;
         child.material.needsUpdate = true;
       }
-      // --- HAIR: AAYUSH'S NATURAL DARK TEXTURED CROP ---
+      // --- HAIR: AAYUSH'S MIDDLE-PART TEXTURED HAIRSTYLE ---
       else if (
         name.includes("hair") ||
         parentName.includes("hair") ||
@@ -559,7 +715,7 @@ export function applyAayushIronMan(character: THREE.Object3D) {
         child.material = hairMaterial;
         child.material.needsUpdate = true;
       }
-      // --- FACE, EARS & NECK: AAYUSH'S AUTHENTIC IDENTITY ---
+      // --- FACE, EARS & NECK: AAYUSH'S AUTHENTIC NATURAL SKIN TONE ---
       else if (
         name.includes("neck") ||
         parentName.includes("neck") ||
@@ -610,19 +766,18 @@ export function applyAayushIronMan(character: THREE.Object3D) {
   });
 
   // --- 3D CHEST ARC REACTOR GLOWING LIGHT ---
-  // Attach an active cyan PointLight to the upper spine/chest bone
-  // so the Arc Reactor genuinely illuminates the chest armor, collar & hands!
-  const chestBone = character.getObjectByName("spine005") || character.getObjectByName("spine004");
+  // Positioned down on the chest sternum pointing forward so it illuminates
+  // the armor plates without over-exposing the face!
+  const chestBone = character.getObjectByName("spine004") || character.getObjectByName("spine005");
   const existingReactorLight = character.getObjectByName("arcReactorLight");
   if (!existingReactorLight) {
-    const arcReactorLight = new THREE.PointLight(0x00f5ff, 2.2, 8.5, 2);
+    const arcReactorLight = new THREE.PointLight(0x00f5ff, 1.1, 5.5, 2);
     arcReactorLight.name = "arcReactorLight";
-    // Position slightly in front of the chest
-    arcReactorLight.position.set(0, 0.4, 0.85);
+    arcReactorLight.position.set(0, -0.65, 0.95);
     if (chestBone) {
       chestBone.add(arcReactorLight);
     } else {
-      arcReactorLight.position.set(0, 9.2, 1.2);
+      arcReactorLight.position.set(0, 8.4, 1.2);
       character.add(arcReactorLight);
     }
   }
