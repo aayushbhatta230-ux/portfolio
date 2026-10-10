@@ -1,7 +1,23 @@
-import { MdArrowOutward, MdCopyright } from "react-icons/md";
+import { MdArrowOutward, MdCopyright, MdContentCopy } from "react-icons/md";
+import { useToast } from "../context/ToastContext";
 import "./styles/Contact.css";
 
 const Contact = () => {
+  const { showToast } = useToast();
+
+  const handleCopyEmail = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (navigator?.clipboard?.writeText) {
+      navigator.clipboard.writeText("aayushbhatta230@gmail.com").then(() => {
+        showToast("Email copied: aayushbhatta230@gmail.com ✨");
+      }).catch(() => {
+        window.location.href = "mailto:aayushbhatta230@gmail.com";
+      });
+    } else {
+      window.location.href = "mailto:aayushbhatta230@gmail.com";
+    }
+  };
+
   return (
     <div className="contact-section section-container" id="contact">
       <div className="contact-container">
@@ -10,8 +26,14 @@ const Contact = () => {
           <div className="contact-box">
             <h4>Email</h4>
             <p>
-              <a href="mailto:aayushbhatta230@gmail.com" data-cursor="disable">
-                aayushbhatta230@gmail.com
+              <a
+                href="mailto:aayushbhatta230@gmail.com"
+                data-cursor="disable"
+                onClick={handleCopyEmail}
+                title="Click to copy email address"
+                style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}
+              >
+                aayushbhatta230@gmail.com <MdContentCopy size={16} opacity={0.7} />
               </a>
             </p>
             <h4>Location</h4>
@@ -22,22 +44,25 @@ const Contact = () => {
             <a
               href="https://github.com/aayushbhatta230-ux"
               target="_blank"
+              rel="noopener noreferrer"
               data-cursor="disable"
               className="contact-social"
             >
               GitHub <MdArrowOutward />
             </a>
             <a
-              href="https://aayushbhatta230-ux.github.io/aayushbhatta230-ux/"
+              href="https://aayushifty.com.np/"
               target="_blank"
+              rel="noopener noreferrer"
               data-cursor="disable"
               className="contact-social"
             >
-              Live 3D Portfolio <MdArrowOutward />
+              Custom Domain (aayushifty.com.np) <MdArrowOutward />
             </a>
             <a
               href="https://www.tiktok.com/@aayushifty"
               target="_blank"
+              rel="noopener noreferrer"
               data-cursor="disable"
               className="contact-social"
             >
@@ -46,6 +71,7 @@ const Contact = () => {
             <a
               href="https://instagram.com/aayushifty"
               target="_blank"
+              rel="noopener noreferrer"
               data-cursor="disable"
               className="contact-social"
             >

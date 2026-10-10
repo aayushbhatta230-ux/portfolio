@@ -89,6 +89,43 @@
 .work-info > p {
   width: 90%;
 }
+.work-badge {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  background: rgba(194, 164, 255, 0.12);
+  color: var(--accentColor, #c2a4ff);
+  border: 1px solid rgba(194, 164, 255, 0.25);
+  text-transform: uppercase;
+}
+.work-repo-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.4px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+  width: fit-content;
+}
+.work-repo-btn:hover {
+  background: rgba(194, 164, 255, 0.2);
+  border-color: var(--accentColor, #c2a4ff);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(194, 164, 255, 0.2);
+}
 .work-image {
   display: flex;
   width: 100%;

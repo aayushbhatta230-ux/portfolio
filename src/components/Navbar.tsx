@@ -3,12 +3,24 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import HoverLinks from "./HoverLinks";
 import { gsap } from "gsap";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
+import { useToast } from "../context/ToastContext";
 import "./styles/Navbar.css";
 
 gsap.registerPlugin(ScrollSmoother, ScrollTrigger);
 export let smoother: ScrollSmoother;
 
 const Navbar = () => {
+  const { showToast } = useToast();
+
+  const handleCopyEmail = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (navigator?.clipboard?.writeText) {
+      navigator.clipboard.writeText("aayushbhatta230@gmail.com").then(() => {
+        showToast("Email copied: aayushbhatta230@gmail.com ✨");
+      }).catch(() => {});
+    }
+  };
+
   useEffect(() => {
     smoother = ScrollSmoother.create({
       wrapper: "#smooth-wrapper",
@@ -58,6 +70,8 @@ const Navbar = () => {
           href="mailto:aayushbhatta230@gmail.com"
           className="navbar-connect"
           data-cursor="disable"
+          onClick={handleCopyEmail}
+          title="Click to copy email address"
         >
           aayushbhatta230@gmail.com
         </a>

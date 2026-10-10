@@ -3,6 +3,7 @@ import WorkImage from "./WorkImage";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { MdArrowOutward } from "react-icons/md";
 
 gsap.registerPlugin(useGSAP);
 
@@ -12,6 +13,7 @@ const projects = [
   {
     title: "JARVIS AI Assistant",
     category: "Autonomous Systems & Voice",
+    badge: "Autonomous Voice Agent",
     tools: "Python, Ollama, Llama 3.2, Nomic Embeddings, FastAPI, Web Speech",
     link: "https://github.com/aayushbhatta230-ux/jarvis-ai-agent",
     image: `${basePath}images/projects/jarvis.webp`,
@@ -19,6 +21,7 @@ const projects = [
   {
     title: "AETHER Overlay",
     category: "Ambient Local AI Software",
+    badge: "v0.2.0 Local AI",
     tools: "Python, Ollama, Tkinter, SQLite, PII Redaction, Pytest",
     link: "https://github.com/aayushbhatta230-ux/aether-overlay",
     image: `${basePath}images/projects/aether.webp`,
@@ -26,6 +29,7 @@ const projects = [
   {
     title: "Trinity Teaching",
     category: "Classroom Presentation Platform",
+    badge: "Offline Hybrid Platform",
     tools: "Android APK, Windows Installer, Electron, Offline-First",
     link: "https://github.com/aayushbhatta230-ux/trinity-teaching-app",
     image: `${basePath}images/projects/trinity.webp`,
@@ -33,6 +37,7 @@ const projects = [
   {
     title: "HandChord",
     category: "Computer Vision & Music",
+    badge: "Touchless Vision & Audio",
     tools: "JavaScript, MediaPipe Landmarks, Web Audio API, Vite",
     link: "https://github.com/aayushbhatta230-ux/handchord",
     image: `${basePath}images/projects/handchord.webp`,
@@ -40,6 +45,7 @@ const projects = [
   {
     title: "KrishiTrust",
     category: "Agricultural IoT Telematics",
+    badge: "Hardware Telematics",
     tools: "React 19, ESP32, Leaflet GIS, MPU-6050, TailwindCSS",
     link: "https://github.com/aayushbhatta230-ux/krishitrust",
     image: `${basePath}images/projects/krishitrust.webp`,
@@ -47,6 +53,7 @@ const projects = [
   {
     title: "Ullens Idea Lab",
     category: "Multi-Agent Research Swarm",
+    badge: "Autonomous AI Swarm",
     tools: "Python, Multi-Agent Swarm, FreeLLMAPI Gateway, SSE Cockpit",
     link: "https://github.com/aayushbhatta230-ux/ullens-idea-lab",
     image: `${basePath}images/projects/ullens_lab.webp`,
@@ -107,10 +114,21 @@ const Work = () => {
                   <div>
                     <h4>{project.title}</h4>
                     <p>{project.category}</p>
+                    <span className="work-badge">{project.badge}</span>
                   </div>
                 </div>
                 <h4>Tools and features</h4>
                 <p>{project.tools}</p>
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="work-repo-btn"
+                  data-cursor="disable"
+                >
+                  <span>Explore Repository</span>
+                  <MdArrowOutward />
+                </a>
               </div>
               <WorkImage
                 image={project.image}

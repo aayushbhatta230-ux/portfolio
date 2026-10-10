@@ -60,28 +60,56 @@ const SocialIcons = () => {
     <div className="icons-section">
       <div className="social-icons" data-cursor="icons" id="social">
         <span>
-          <a href="https://github.com/aayushbhatta230-ux" target="_blank" title="GitHub">
+          <a
+            href="https://github.com/aayushbhatta230-ux"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="GitHub (@aayushbhatta230-ux)"
+            aria-label="GitHub Profile"
+          >
             <FaGithub />
           </a>
         </span>
         <span>
-          <a href="https://www.tiktok.com/@aayushifty" target="_blank" title="TikTok">
+          <a
+            href="https://www.tiktok.com/@aayushifty"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="TikTok (@aayushifty)"
+            aria-label="TikTok Profile"
+          >
             <FaTiktok />
           </a>
         </span>
         <span>
-          <a href="https://instagram.com/aayushifty" target="_blank" title="Instagram">
+          <a
+            href="https://instagram.com/aayushifty"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Instagram (@aayushifty)"
+            aria-label="Instagram Profile"
+          >
             <FaInstagram />
           </a>
         </span>
         <span>
-          <a href="mailto:aayushbhatta230@gmail.com" title="Email">
+          <a
+            href="mailto:aayushbhatta230@gmail.com"
+            title="Email (aayushbhatta230@gmail.com)"
+            aria-label="Send Email"
+          >
             <MdEmail />
           </a>
         </span>
       </div>
-      <a className="resume-button" href="https://aayushbhatta230-ux.github.io/aayushbhatta230-ux/" target="_blank">
-        <HoverLinks text="PORTFOLIO" />
+      <a
+        className="resume-button"
+        href="https://github.com/aayushbhatta230-ux"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="View GitHub Profile & Repositories"
+      >
+        <HoverLinks text="PROFILE" />
         <span>
           <TbNotes />
         </span>
