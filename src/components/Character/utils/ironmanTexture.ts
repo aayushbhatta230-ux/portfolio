@@ -1,669 +1,304 @@
 import * as THREE from "three";
 
 /**
- * Generates an ultra-detailed, high-resolution procedural Iron Man Mark 85
- * nanotech armor texture featuring:
- * - Hot-rod crimson red metallic lacquer
- * - Polished gold titanium clavicle, shoulder & rib plates
- * - Prominent "AAYUSHIFTY" insignia laser-etched onto the chest armor
- * - The iconic glowing Stark Arc Reactor (Unibeam) with copper induction coils
- * - Carbon-fiber composite flex joint paneling
+ * Creates the high-tech 3D "AAYUSHIFTY" Armored Insignia Plate
+ * that attaches directly to the character's upper chest armor.
  */
-export function createIronManChestTexture(): {
-  diffuse: THREE.CanvasTexture;
-  emissive: THREE.CanvasTexture;
-} {
-  const size = 2048;
-
-  // --- 1. DIFFUSE TEXTURE CANVAS ---
+export function create3DAayushiftyInsignia(): THREE.Mesh {
   const canvas = document.createElement("canvas");
-  canvas.width = size;
-  canvas.height = size;
+  canvas.width = 1024;
+  canvas.height = 256;
   const ctx = canvas.getContext("2d")!;
 
-  if (!ctx) {
-    const fallback = new THREE.CanvasTexture(document.createElement("canvas"));
-    return { diffuse: fallback, emissive: fallback };
-  }
-
-  // --- 2. EMISSIVE TEXTURE CANVAS (for glowing Arc Reactor & insignia) ---
-  const emissiveCanvas = document.createElement("canvas");
-  emissiveCanvas.width = size;
-  emissiveCanvas.height = size;
-  const eCtx = emissiveCanvas.getContext("2d")!;
+  const eCanvas = document.createElement("canvas");
+  eCanvas.width = 1024;
+  eCanvas.height = 256;
+  const eCtx = eCanvas.getContext("2d")!;
   eCtx.fillStyle = "#000000";
-  eCtx.fillRect(0, 0, size, size);
+  eCtx.fillRect(0, 0, 1024, 256);
 
-  // Background: Deep metallic hot-rod crimson with titanium gradient
-  const bgGrad = ctx.createLinearGradient(0, 0, size, size);
-  bgGrad.addColorStop(0, "#740815");
-  bgGrad.addColorStop(0.25, "#8d0b1a");
-  bgGrad.addColorStop(0.5, "#a60f21");
-  bgGrad.addColorStop(0.75, "#8d0b1a");
-  bgGrad.addColorStop(1, "#5e0510");
-  ctx.fillStyle = bgGrad;
-  ctx.fillRect(0, 0, size, size);
-
-  // Subtle metallic micro-grain
-  ctx.save();
-  ctx.fillStyle = "rgba(255, 255, 255, 0.02)";
-  for (let y = 0; y < size; y += 4) {
-    ctx.fillRect(0, y, size, 2);
-  }
-  ctx.restore();
-
-  // Dark ballistic carbon-fiber flanks (underarms & lats)
-  ctx.save();
-  ctx.fillStyle = "#15171d";
-  // Left flank
+  // Carbon-titanium dark brushed backing
+  const grad = ctx.createLinearGradient(0, 0, 1024, 256);
+  grad.addColorStop(0, "#161922");
+  grad.addColorStop(0.5, "#252a36");
+  grad.addColorStop(1, "#161922");
+  ctx.fillStyle = grad;
   ctx.beginPath();
-  ctx.moveTo(0, 0);
-  ctx.lineTo(360, 0);
-  ctx.quadraticCurveTo(450, 700, 320, size);
-  ctx.lineTo(0, size);
-  ctx.closePath();
-  ctx.fill();
-  // Right flank
-  ctx.beginPath();
-  ctx.moveTo(size, 0);
-  ctx.lineTo(size - 360, 0);
-  ctx.quadraticCurveTo(size - 450, 700, size - 320, size);
-  ctx.lineTo(size, size);
-  ctx.closePath();
+  ctx.roundRect(16, 16, 992, 224, 24);
   ctx.fill();
 
-  // Carbon weave texture
-  ctx.strokeStyle = "rgba(255, 255, 255, 0.04)";
-  ctx.lineWidth = 2;
-  for (let i = -size; i < size; i += 24) {
-    ctx.beginPath();
-    ctx.moveTo(i, 0);
-    ctx.lineTo(i + size, size);
-    ctx.stroke();
-  }
-  ctx.restore();
-
-  const cx = size / 2; // 1024
-  const cy = 760;     // Chest center
-
-  // Pectoral Armor Main Plates (Crimson lacquer with bevels)
-  ctx.save();
-  // Left Pectoral Plate
-  ctx.beginPath();
-  ctx.moveTo(cx - 30, cy - 260);
-  ctx.lineTo(cx - 480, cy - 240);
-  ctx.lineTo(cx - 520, cy + 80);
-  ctx.lineTo(cx - 240, cy + 180);
-  ctx.lineTo(cx - 30, cy + 60);
-  ctx.closePath();
-  const pecGradL = ctx.createLinearGradient(cx - 480, cy - 240, cx - 30, cy + 180);
-  pecGradL.addColorStop(0, "#b01224");
-  pecGradL.addColorStop(0.5, "#d31a30");
-  pecGradL.addColorStop(1, "#800816");
-  ctx.fillStyle = pecGradL;
-  ctx.fill();
-  ctx.strokeStyle = "#40040a";
+  // Polished Gold Titanium Bevel Border
   ctx.lineWidth = 10;
+  const goldBorder = ctx.createLinearGradient(0, 0, 1024, 0);
+  goldBorder.addColorStop(0, "#c69214");
+  goldBorder.addColorStop(0.3, "#ffd700");
+  goldBorder.addColorStop(0.7, "#e5b80b");
+  goldBorder.addColorStop(1, "#a8740d");
+  ctx.strokeStyle = goldBorder;
   ctx.stroke();
 
-  // Right Pectoral Plate
-  ctx.beginPath();
-  ctx.moveTo(cx + 30, cy - 260);
-  ctx.lineTo(cx + 480, cy - 240);
-  ctx.lineTo(cx + 520, cy + 80);
-  ctx.lineTo(cx + 240, cy + 180);
-  ctx.lineTo(cx + 30, cy + 60);
-  ctx.closePath();
-  const pecGradR = ctx.createLinearGradient(cx + 480, cy - 240, cx + 30, cy + 180);
-  pecGradR.addColorStop(0, "#b01224");
-  pecGradR.addColorStop(0.5, "#d31a30");
-  pecGradR.addColorStop(1, "#800816");
-  ctx.fillStyle = pecGradR;
-  ctx.fill();
-  ctx.strokeStyle = "#40040a";
-  ctx.lineWidth = 10;
-  ctx.stroke();
-  ctx.restore();
-
-  // Polished Gold Titanium Clavicle & Shoulder Pauldrons (Top chest)
-  ctx.save();
-  const goldGrad = ctx.createLinearGradient(0, 0, size, 400);
-  goldGrad.addColorStop(0, "#c69214");
-  goldGrad.addColorStop(0.25, "#e5b80b");
-  goldGrad.addColorStop(0.5, "#ffd700");
-  goldGrad.addColorStop(0.75, "#e5b80b");
-  goldGrad.addColorStop(1, "#a8740d");
-
-  // Left Gold Shoulder Plate
-  ctx.beginPath();
-  ctx.moveTo(cx - 80, 0);
-  ctx.lineTo(cx - 560, 0);
-  ctx.lineTo(cx - 580, 360);
-  ctx.lineTo(cx - 420, 380);
-  ctx.lineTo(cx - 160, 160);
-  ctx.closePath();
-  ctx.fillStyle = goldGrad;
-  ctx.fill();
-  ctx.strokeStyle = "#634505";
-  ctx.lineWidth = 8;
-  ctx.stroke();
-
-  // Right Gold Shoulder Plate
-  ctx.beginPath();
-  ctx.moveTo(cx + 80, 0);
-  ctx.lineTo(cx + 560, 0);
-  ctx.lineTo(cx + 580, 360);
-  ctx.lineTo(cx + 420, 380);
-  ctx.lineTo(cx + 160, 160);
-  ctx.closePath();
-  ctx.fillStyle = goldGrad;
-  ctx.fill();
-  ctx.strokeStyle = "#634505";
-  ctx.lineWidth = 8;
-  ctx.stroke();
-
-  // High-Tech Gold Nanotech Collar Rim (Connecting naturally to neck)
-  ctx.beginPath();
-  ctx.ellipse(cx, 100, 220, 70, 0, 0, Math.PI * 2);
-  ctx.lineWidth = 22;
-  ctx.strokeStyle = goldGrad;
-  ctx.stroke();
-  ctx.restore();
-
-  // ==============================================================
-  // "AAYUSHIFTY" INSIGNIA ON CHEST ARMOR
-  // ==============================================================
-  const textY = cy - 260; // Right across the upper chest armor above Arc Reactor
-
-  // 1. Armored Titanium Nameplate Banner
-  ctx.save();
-  ctx.beginPath();
-  ctx.roundRect(cx - 320, textY - 48, 640, 80, 12);
-  const bannerGrad = ctx.createLinearGradient(cx - 320, textY - 48, cx + 320, textY + 32);
-  bannerGrad.addColorStop(0, "#1c1f26");
-  bannerGrad.addColorStop(0.5, "#2a2e39");
-  bannerGrad.addColorStop(1, "#1c1f26");
-  ctx.fillStyle = bannerGrad;
-  ctx.fill();
-  ctx.lineWidth = 4;
-  ctx.strokeStyle = "#e5b80b"; // Gold border
-  ctx.stroke();
-
-  // Subtle corner rivets on nameplate
+  // Corner titanium mounting bolts
   ctx.fillStyle = "#cbd5e1";
-  [
-    [cx - 304, textY - 34],
-    [cx + 304, textY - 34],
-    [cx - 304, textY + 20],
-    [cx + 304, textY + 20],
-  ].forEach(([rx, ry]) => {
+  [[48, 48], [976, 48], [48, 208], [976, 208]].forEach(([bx, by]) => {
     ctx.beginPath();
-    ctx.arc(rx, ry, 4, 0, Math.PI * 2);
+    ctx.arc(bx, by, 7, 0, Math.PI * 2);
     ctx.fill();
   });
 
-  // 2. Bold "AAYUSHIFTY" Metallic Gold/White Typography
-  ctx.font = "900 50px 'Outfit', 'Montserrat', 'Arial Black', sans-serif";
+  // Top cyan micro-HUD power rail
+  ctx.fillStyle = "#00f5ff";
+  ctx.fillRect(180, 36, 664, 4);
+
+  // Bold Futuristic "AAYUSHIFTY" Typography
+  ctx.font = "900 86px 'Outfit', 'Montserrat', 'Arial Black', sans-serif";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
 
   // Drop shadow
   ctx.fillStyle = "#000000";
-  ctx.fillText("AAYUSHIFTY", cx + 2, textY + 2);
+  ctx.fillText("AAYUSHIFTY", 514, 134);
 
-  // Metallic gold fill
-  const textGrad = ctx.createLinearGradient(0, textY - 25, 0, textY + 25);
+  // Radiant Gold Letters
+  const textGrad = ctx.createLinearGradient(0, 80, 0, 180);
   textGrad.addColorStop(0, "#ffffff");
-  textGrad.addColorStop(0.3, "#fff0a0");
-  textGrad.addColorStop(0.6, "#ffd700");
+  textGrad.addColorStop(0.25, "#fff0a0");
+  textGrad.addColorStop(0.65, "#ffd700");
   textGrad.addColorStop(1, "#d4af37");
   ctx.fillStyle = textGrad;
-  ctx.fillText("AAYUSHIFTY", cx, textY);
+  ctx.fillText("AAYUSHIFTY", 512, 130);
 
-  // Subtle cyber cyan accent line above text
-  ctx.fillStyle = "#00f5ff";
-  ctx.fillRect(cx - 180, textY - 38, 360, 3);
-  ctx.restore();
+  // Subtitle: STARK INDUSTRIES // MARK 85
+  ctx.font = "bold 20px monospace";
+  ctx.fillStyle = "rgba(226, 232, 240, 0.75)";
+  ctx.fillText("// MARK 85 NANOTECH //", 512, 202);
 
-  // Emissive Map for "AAYUSHIFTY": Radiant glowing nanotech letters
-  eCtx.save();
-  eCtx.font = "900 50px 'Outfit', 'Montserrat', 'Arial Black', sans-serif";
+  // Emissive Map for glowing cyan laser outline
+  eCtx.font = "900 86px 'Outfit', 'Montserrat', 'Arial Black', sans-serif";
   eCtx.textAlign = "center";
   eCtx.textBaseline = "middle";
   eCtx.strokeStyle = "#00f5ff";
-  eCtx.lineWidth = 5;
+  eCtx.lineWidth = 8;
   eCtx.shadowColor = "#00f5ff";
   eCtx.shadowBlur = 24;
-  eCtx.strokeText("AAYUSHIFTY", cx, textY);
-  // Center line glow
+  eCtx.strokeText("AAYUSHIFTY", 512, 130);
   eCtx.fillStyle = "#00f5ff";
-  eCtx.fillRect(cx - 180, textY - 38, 360, 3);
-  eCtx.restore();
+  eCtx.fillRect(180, 36, 664, 4);
 
-  // Abdominal Segmented Nanotech Plating (Below Arc Reactor)
-  ctx.save();
-  const abYStarts = [cy + 220, cy + 420, cy + 620, cy + 820];
-  abYStarts.forEach((abY, idx) => {
-    const width = 580 - idx * 55;
-    ctx.beginPath();
-    ctx.roundRect(cx - width / 2, abY, width, 140, 18);
-    const abGrad = ctx.createLinearGradient(cx - width / 2, abY, cx + width / 2, abY + 140);
-    abGrad.addColorStop(0, "#880917");
-    abGrad.addColorStop(0.5, "#af1224");
-    abGrad.addColorStop(1, "#690611");
-    ctx.fillStyle = abGrad;
-    ctx.fill();
-    ctx.strokeStyle = "#2b0207";
-    ctx.lineWidth = 8;
-    ctx.stroke();
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  const eTexture = new THREE.CanvasTexture(eCanvas);
+  eTexture.colorSpace = THREE.SRGBColorSpace;
 
-    // Gold lateral accent tabs on abs
-    ctx.fillStyle = "#d4af37";
-    ctx.fillRect(cx - width / 2 + 15, abY + 30, 45, 80);
-    ctx.fillRect(cx + width / 2 - 60, abY + 30, 45, 80);
-
-    // Glowing micro-seam in center of abs
-    eCtx.fillStyle = "rgba(0, 245, 255, 0.25)";
-    eCtx.fillRect(cx - 3, abY + 20, 6, 100);
+  const mat = new THREE.MeshStandardMaterial({
+    map: texture,
+    emissiveMap: eTexture,
+    emissive: new THREE.Color("#00f5ff"),
+    emissiveIntensity: 1.8,
+    roughness: 0.25,
+    metalness: 0.85,
+    transparent: true,
   });
-  ctx.restore();
 
-  // ==============================================================
-  // THE ICONIC STARK MARK-85 ARC REACTOR (UNIBEAM)
-  // ==============================================================
-  const reactorRadius = 150;
+  const geo = new THREE.PlaneGeometry(0.78, 0.20);
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.name = "aayushiftyInsigniaPlate";
+  return mesh;
+}
 
-  // 1. Titanium Chrome Inverted Triangle / Hexagonal Housing
-  ctx.save();
-  ctx.beginPath();
-  const housingPoints = [
-    [cx, cy - reactorRadius * 1.35],
-    [cx + reactorRadius * 1.3, cy - reactorRadius * 0.55],
-    [cx + reactorRadius * 0.95, cy + reactorRadius * 1.15],
-    [cx, cy + reactorRadius * 1.38],
-    [cx - reactorRadius * 0.95, cy + reactorRadius * 1.15],
-    [cx - reactorRadius * 1.3, cy - reactorRadius * 0.55],
-  ];
-  ctx.moveTo(housingPoints[0][0], housingPoints[0][1]);
-  for (let i = 1; i < housingPoints.length; i++) {
-    ctx.lineTo(housingPoints[i][0], housingPoints[i][1]);
+/**
+ * Creates the physical 3D Stark Arc Reactor (Unibeam)
+ * that mounts directly onto the character's sternum.
+ */
+export function create3DArcReactor(): THREE.Group {
+  const group = new THREE.Group();
+  group.name = "starkArcReactor3D";
+
+  // 1. Chrome Hexagonal Housing Rim
+  const hexShape = new THREE.Shape();
+  const hexRadius = 0.22;
+  for (let i = 0; i < 6; i++) {
+    const angle = (i * Math.PI) / 3 - Math.PI / 6;
+    const x = Math.cos(angle) * hexRadius;
+    const y = Math.sin(angle) * hexRadius;
+    if (i === 0) hexShape.moveTo(x, y);
+    else hexShape.lineTo(x, y);
   }
-  ctx.closePath();
-  const housingGrad = ctx.createLinearGradient(cx - reactorRadius, cy - reactorRadius, cx + reactorRadius, cy + reactorRadius);
-  housingGrad.addColorStop(0, "#e2e8f0");
-  housingGrad.addColorStop(0.5, "#64748b");
-  housingGrad.addColorStop(1, "#1e293b");
-  ctx.fillStyle = housingGrad;
-  ctx.fill();
-  ctx.strokeStyle = "#0f172a";
-  ctx.lineWidth = 14;
-  ctx.stroke();
+  hexShape.closePath();
 
-  // Gold Inner Bezel
-  ctx.lineWidth = 8;
-  ctx.strokeStyle = "#d4af37";
-  ctx.stroke();
-  ctx.restore();
+  // Hole for inner ring
+  const holePath = new THREE.Path();
+  holePath.absarc(0, 0, 0.16, 0, Math.PI * 2, true);
+  hexShape.holes.push(holePath);
 
-  // 2. Outer Magnetic Containment Ring
-  ctx.save();
-  ctx.beginPath();
-  ctx.arc(cx, cy, reactorRadius, 0, Math.PI * 2);
-  ctx.fillStyle = "#090d16";
-  ctx.fill();
-  ctx.lineWidth = 12;
-  ctx.strokeStyle = "#38bdf8";
-  ctx.stroke();
+  const housingGeo = new THREE.ShapeGeometry(hexShape);
+  const housingMat = new THREE.MeshStandardMaterial({
+    color: new THREE.Color("#cbd5e1"),
+    roughness: 0.18,
+    metalness: 0.95,
+    side: THREE.DoubleSide,
+  });
+  const housingMesh = new THREE.Mesh(housingGeo, housingMat);
+  housingMesh.position.z = 0.01;
+  group.add(housingMesh);
 
-  // 3. 10 Segmented Copper Induction Coils around the reactor
-  const numCoils = 10;
-  for (let i = 0; i < numCoils; i++) {
-    const angle = (i * 2 * Math.PI) / numCoils;
-    const coilX = cx + Math.cos(angle) * (reactorRadius - 26);
-    const coilY = cy + Math.sin(angle) * (reactorRadius - 26);
-    ctx.save();
-    ctx.translate(coilX, coilY);
-    ctx.rotate(angle);
-    ctx.fillStyle = "#d97706";
-    ctx.fillRect(-12, -22, 24, 44);
-    ctx.strokeStyle = "#78350f";
-    ctx.lineWidth = 3;
-    ctx.strokeRect(-12, -22, 24, 44);
-    ctx.restore();
+  // 2. Polished Gold Containment Bezel
+  const goldRingGeo = new THREE.RingGeometry(0.125, 0.16, 32);
+  const goldRingMat = new THREE.MeshStandardMaterial({
+    color: new THREE.Color("#d4af37"),
+    roughness: 0.22,
+    metalness: 0.88,
+    side: THREE.DoubleSide,
+  });
+  const goldRingMesh = new THREE.Mesh(goldRingGeo, goldRingMat);
+  goldRingMesh.position.z = 0.015;
+  group.add(goldRingMesh);
+
+  // 3. 8 Copper Magnetic Induction Coils
+  const coilGeo = new THREE.BoxGeometry(0.022, 0.038, 0.018);
+  const coilMat = new THREE.MeshStandardMaterial({
+    color: new THREE.Color("#d97706"),
+    roughness: 0.3,
+    metalness: 0.85,
+  });
+  for (let i = 0; i < 8; i++) {
+    const angle = (i * Math.PI) / 4;
+    const coil = new THREE.Mesh(coilGeo, coilMat);
+    coil.position.x = Math.cos(angle) * 0.142;
+    coil.position.y = Math.sin(angle) * 0.142;
+    coil.position.z = 0.022;
+    coil.rotation.z = angle + Math.PI / 2;
+    group.add(coil);
   }
 
-  // 4. Inner Radiant Plasma Fusion Core (Diffuse Canvas)
-  const coreGrad = ctx.createRadialGradient(cx, cy, 10, cx, cy, reactorRadius - 40);
-  coreGrad.addColorStop(0, "#ffffff");
-  coreGrad.addColorStop(0.2, "#e0f2fe");
-  coreGrad.addColorStop(0.5, "#38bdf8");
-  coreGrad.addColorStop(0.8, "#0284c7");
-  coreGrad.addColorStop(1, "#082f49");
-  ctx.fillStyle = coreGrad;
-  ctx.beginPath();
-  ctx.arc(cx, cy, reactorRadius - 38, 0, Math.PI * 2);
-  ctx.fill();
+  // 4. Glowing Cyan Plasma Reaction Core (Unibeam)
+  const coreGeo = new THREE.CircleGeometry(0.125, 32);
+  const coreMat = new THREE.MeshBasicMaterial({
+    color: new THREE.Color("#00f5ff"),
+    side: THREE.DoubleSide,
+  });
+  const coreMesh = new THREE.Mesh(coreGeo, coreMat);
+  coreMesh.position.z = 0.025;
+  group.add(coreMesh);
 
-  // Unibeam Tri-Core Geometric Laser Aperture
-  ctx.beginPath();
+  // 5. White Hot Plasma Center Tri-Aperture
+  const triShape = new THREE.Shape();
   for (let i = 0; i < 3; i++) {
     const angle = (i * 2 * Math.PI) / 3 - Math.PI / 2;
-    const tx = cx + Math.cos(angle) * 48;
-    const ty = cy + Math.sin(angle) * 48;
-    if (i === 0) ctx.moveTo(tx, ty);
-    else ctx.lineTo(tx, ty);
+    const tx = Math.cos(angle) * 0.055;
+    const ty = Math.sin(angle) * 0.055;
+    if (i === 0) triShape.moveTo(tx, ty);
+    else triShape.lineTo(tx, ty);
   }
-  ctx.closePath();
-  ctx.fillStyle = "#ffffff";
-  ctx.shadowColor = "#00f5ff";
-  ctx.shadowBlur = 35;
-  ctx.fill();
-  ctx.restore();
+  triShape.closePath();
+  const triGeo = new THREE.ShapeGeometry(triShape);
+  const triMat = new THREE.MeshBasicMaterial({
+    color: new THREE.Color("#ffffff"),
+    side: THREE.DoubleSide,
+  });
+  const triMesh = new THREE.Mesh(triGeo, triMat);
+  triMesh.position.z = 0.03;
+  group.add(triMesh);
 
-  // ==============================================================
-  // EMISSIVE MAP: Intense Arc Reactor Glow & Energy Conduits
-  // ==============================================================
-  eCtx.save();
-  const eCoreGrad = eCtx.createRadialGradient(cx, cy, 5, cx, cy, reactorRadius + 20);
-  eCoreGrad.addColorStop(0, "#ffffff");
-  eCoreGrad.addColorStop(0.35, "#00f5ff");
-  eCoreGrad.addColorStop(0.7, "#0284c7");
-  eCoreGrad.addColorStop(1, "#000000");
-  eCtx.fillStyle = eCoreGrad;
-  eCtx.beginPath();
-  eCtx.arc(cx, cy, reactorRadius + 20, 0, Math.PI * 2);
-  eCtx.fill();
+  // 6. Point Light illuminating armor & hands
+  const light = new THREE.PointLight(0x00f5ff, 1.3, 4.5, 2);
+  light.position.set(0, 0, 0.12);
+  group.add(light);
 
-  // Glowing nanotech conduits
-  eCtx.strokeStyle = "#00f5ff";
-  eCtx.lineWidth = 14;
-  eCtx.shadowColor = "#00f5ff";
-  eCtx.shadowBlur = 30;
-
-  // Left conduit
-  eCtx.beginPath();
-  eCtx.moveTo(cx - reactorRadius * 0.8, cy - reactorRadius * 0.8);
-  eCtx.lineTo(cx - 380, cy - 320);
-  eCtx.lineTo(cx - 520, 180);
-  eCtx.stroke();
-
-  // Right conduit
-  eCtx.beginPath();
-  eCtx.moveTo(cx + reactorRadius * 0.8, cy - reactorRadius * 0.8);
-  eCtx.lineTo(cx + 380, cy - 320);
-  eCtx.lineTo(cx + 520, 180);
-  eCtx.stroke();
-
-  // Downward power bus
-  eCtx.beginPath();
-  eCtx.moveTo(cx, cy + reactorRadius * 1.1);
-  eCtx.lineTo(cx, cy + 980);
-  eCtx.stroke();
-  eCtx.restore();
-
-  // --- THREE.JS TEXTURES ---
-  const diffuseTexture = new THREE.CanvasTexture(canvas);
-  diffuseTexture.colorSpace = THREE.SRGBColorSpace;
-  diffuseTexture.wrapS = THREE.RepeatWrapping;
-  diffuseTexture.wrapT = THREE.RepeatWrapping;
-  diffuseTexture.needsUpdate = true;
-
-  const emissiveTexture = new THREE.CanvasTexture(emissiveCanvas);
-  emissiveTexture.colorSpace = THREE.SRGBColorSpace;
-  emissiveTexture.wrapS = THREE.RepeatWrapping;
-  emissiveTexture.wrapT = THREE.RepeatWrapping;
-  emissiveTexture.needsUpdate = true;
-
-  return { diffuse: diffuseTexture, emissive: emissiveTexture };
+  return group;
 }
 
 /**
- * Generates an Iron Man Gauntlet Texture for the hands with:
- * - Crimson and gold armored plates
- * - Center palm glowing circular Repulsor Node
+ * Sculpts the hair mesh vertices at runtime to create a true,
+ * physical middle-part curtain bangs hairstyle matching Aayush's selfie.
  */
-export function createIronManGauntletTexture(): {
-  diffuse: THREE.CanvasTexture;
-  emissive: THREE.CanvasTexture;
-} {
-  const size = 1024;
-  const canvas = document.createElement("canvas");
-  canvas.width = size;
-  canvas.height = size;
-  const ctx = canvas.getContext("2d")!;
+export function sculptMiddlePartHair(hairMesh: THREE.Mesh) {
+  if (!hairMesh.geometry || !hairMesh.geometry.attributes.position) return;
+  const pos = hairMesh.geometry.attributes.position as THREE.BufferAttribute;
 
-  const emissiveCanvas = document.createElement("canvas");
-  emissiveCanvas.width = size;
-  emissiveCanvas.height = size;
-  const eCtx = emissiveCanvas.getContext("2d")!;
-  eCtx.fillStyle = "#000000";
-  eCtx.fillRect(0, 0, size, size);
+  for (let i = 0; i < pos.count; i++) {
+    const x = pos.getX(i);
+    const y = pos.getY(i);
+    const z = pos.getZ(i);
 
-  if (!ctx) {
-    const fallback = new THREE.CanvasTexture(document.createElement("canvas"));
-    return { diffuse: fallback, emissive: fallback };
+    // Front forehead and bangs region
+    if (z > 0.03 && y > 0.02) {
+      if (Math.abs(x) < 0.022) {
+        // Center part scalp valley: indent inward and slightly upward
+        pos.setZ(i, z - 0.02);
+        pos.setY(i, y + 0.008);
+      } else if (x >= 0.022) {
+        // Right curtain lock: fan outward and curve forward with volume
+        pos.setX(i, 0.022 + (x - 0.022) * 1.25);
+        pos.setZ(i, z + 0.007);
+      } else if (x <= -0.022) {
+        // Left curtain lock: fan outward and curve forward with volume
+        pos.setX(i, -0.022 + (x + 0.022) * 1.25);
+        pos.setZ(i, z + 0.007);
+      }
+    }
   }
 
-  // Base metallic hot-rod crimson
-  const grad = ctx.createLinearGradient(0, 0, size, size);
-  grad.addColorStop(0, "#8d0b1a");
-  grad.addColorStop(0.5, "#b51428");
-  grad.addColorStop(1, "#660612");
-  ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, size, size);
-
-  // Gold Knuckle and gauntlet cuff armor
-  ctx.fillStyle = "#d4af37";
-  ctx.fillRect(80, 40, size - 160, 160);
-  ctx.fillRect(80, size - 200, size - 160, 160);
-
-  // Palm Repulsor Node (Center palm)
-  const rx = size / 2;
-  const ry = size / 2;
-  const rRadius = 140;
-
-  // Titanium Repulsor Bezel
-  ctx.beginPath();
-  ctx.arc(rx, ry, rRadius, 0, Math.PI * 2);
-  ctx.fillStyle = "#334155";
-  ctx.fill();
-  ctx.lineWidth = 14;
-  ctx.strokeStyle = "#cbd5e1";
-  ctx.stroke();
-
-  // Glowing Plasma Repulsor Lens
-  const repGrad = ctx.createRadialGradient(rx, ry, 5, rx, ry, rRadius - 20);
-  repGrad.addColorStop(0, "#ffffff");
-  repGrad.addColorStop(0.3, "#a5f3fc");
-  repGrad.addColorStop(0.7, "#00f5ff");
-  repGrad.addColorStop(1, "#0284c7");
-  ctx.fillStyle = repGrad;
-  ctx.beginPath();
-  ctx.arc(rx, ry, rRadius - 16, 0, Math.PI * 2);
-  ctx.fill();
-
-  // Emissive Gauntlet Repulsor Core
-  const eRepGrad = eCtx.createRadialGradient(rx, ry, 5, rx, ry, rRadius + 30);
-  eRepGrad.addColorStop(0, "#ffffff");
-  eRepGrad.addColorStop(0.4, "#00f5ff");
-  eRepGrad.addColorStop(0.8, "#0284c7");
-  eRepGrad.addColorStop(1, "#000000");
-  eCtx.fillStyle = eRepGrad;
-  eCtx.beginPath();
-  eCtx.arc(rx, ry, rRadius + 30, 0, Math.PI * 2);
-  eCtx.fill();
-
-  const diffuse = new THREE.CanvasTexture(canvas);
-  diffuse.colorSpace = THREE.SRGBColorSpace;
-  diffuse.needsUpdate = true;
-
-  const emissive = new THREE.CanvasTexture(emissiveCanvas);
-  emissive.colorSpace = THREE.SRGBColorSpace;
-  emissive.needsUpdate = true;
-
-  return { diffuse, emissive };
+  pos.needsUpdate = true;
+  hairMesh.geometry.computeVertexNormals();
 }
 
 /**
- * Generates a realistic Middle-Part Hair Texture matching Aayush's actual hairstyle:
- * - Natural deep espresso / dark brown-black tone
- * - Distinct center parting line
- * - Left and right flowing curtain bangs with textured strands and soft volume highlights
- */
-export function createMiddlePartHairTexture(): THREE.CanvasTexture {
-  const size = 1024;
-  const canvas = document.createElement("canvas");
-  canvas.width = size;
-  canvas.height = size;
-  const ctx = canvas.getContext("2d")!;
-
-  if (!ctx) {
-    return new THREE.CanvasTexture(document.createElement("canvas"));
-  }
-
-  // Base rich dark espresso / black
-  ctx.fillStyle = "#151311";
-  ctx.fillRect(0, 0, size, size);
-
-  const cx = size / 2;
-
-  // Flowing curtain strands branching left & right from the middle part
-  for (let y = 0; y < size; y += 6) {
-    // Left curtain strand flow (curves down and outward to the left)
-    ctx.strokeStyle = "rgba(44, 36, 30, 0.65)";
-    ctx.lineWidth = 3.5;
-    ctx.beginPath();
-    ctx.moveTo(cx - 18, y);
-    ctx.quadraticCurveTo(cx - 140, y + 25, 0, y + 55);
-    ctx.stroke();
-
-    // Secondary fine hair strand
-    ctx.strokeStyle = "rgba(32, 26, 22, 0.75)";
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(cx - 10, y + 3);
-    ctx.quadraticCurveTo(cx - 100, y + 18, 0, y + 35);
-    ctx.stroke();
-
-    // Right curtain strand flow (curves down and outward to the right)
-    ctx.strokeStyle = "rgba(44, 36, 30, 0.65)";
-    ctx.lineWidth = 3.5;
-    ctx.beginPath();
-    ctx.moveTo(cx + 18, y);
-    ctx.quadraticCurveTo(cx + 140, y + 25, size, y + 55);
-    ctx.stroke();
-
-    // Secondary fine hair strand
-    ctx.strokeStyle = "rgba(32, 26, 22, 0.75)";
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(cx + 10, y + 3);
-    ctx.quadraticCurveTo(cx + 100, y + 18, size, y + 35);
-    ctx.stroke();
-  }
-
-  // Natural volume highlights on the curve of the curtain locks
-  const leftHighlight = ctx.createLinearGradient(cx - 300, 0, cx - 60, size);
-  leftHighlight.addColorStop(0, "transparent");
-  leftHighlight.addColorStop(0.5, "rgba(80, 64, 52, 0.40)");
-  leftHighlight.addColorStop(1, "transparent");
-  ctx.fillStyle = leftHighlight;
-  ctx.fillRect(cx - 320, 0, 240, size);
-
-  const rightHighlight = ctx.createLinearGradient(cx + 60, 0, cx + 300, size);
-  rightHighlight.addColorStop(0, "transparent");
-  rightHighlight.addColorStop(0.5, "rgba(80, 64, 52, 0.40)");
-  rightHighlight.addColorStop(1, "transparent");
-  ctx.fillStyle = rightHighlight;
-  ctx.fillRect(cx + 80, 0, 240, size);
-
-  // Deep scalp shadow along the center parting line
-  const partGrad = ctx.createLinearGradient(cx - 25, 0, cx + 25, 0);
-  partGrad.addColorStop(0, "transparent");
-  partGrad.addColorStop(0.5, "rgba(8, 7, 6, 0.98)");
-  partGrad.addColorStop(1, "transparent");
-  ctx.fillStyle = partGrad;
-  ctx.fillRect(cx - 25, 0, 50, size);
-
-  const tex = new THREE.CanvasTexture(canvas);
-  tex.colorSpace = THREE.SRGBColorSpace;
-  tex.wrapS = THREE.RepeatWrapping;
-  tex.wrapT = THREE.RepeatWrapping;
-  tex.needsUpdate = true;
-  return tex;
-}
-
-/**
- * Traverses the loaded character model and dresses it as Iron Man Mark 85
- * while holding Aayush Bhatta's authentic facial identity:
- * - Natural golden-olive/wheatish skin tone (sampled from Aayush's selfie)
- * - Middle-part textured hairstyle
- * - "AAYUSHIFTY" branded on chest armor
- * - Glowing Stark Arc Reactor & palm repulsors
+ * Transforms the character model into Iron Man Mark 85
+ * while ensuring authentic identity:
+ * 1. Face: Natural Nepali golden-wheatish skin tone (fixes the chalk-white bug by removing vertex colors)
+ * 2. Hair: Sculpted middle-part curtain hairstyle
+ * 3. Armor: Hot-rod crimson & gold with 3D glowing Arc Reactor and "AAYUSHIFTY" insignia plate
  */
 export function applyAayushIronMan(character: THREE.Object3D) {
-  const { diffuse: chestDiffuse, emissive: chestEmissive } = createIronManChestTexture();
-  const { diffuse: gauntletDiffuse, emissive: gauntletEmissive } = createIronManGauntletTexture();
-  const hairTexture = createMiddlePartHairTexture();
-
-  // 1. AAYUSH'S AUTHENTIC APPEARANCE
-  // Natural, authentic South Asian / Nepali golden-wheatish skin tone
-  // directly sampled from Aayush's selfie (not washed out or bright/pale)
+  // 1. AAYUSH'S AUTHENTIC SKIN TONE
+  // Natural warm South Asian / Nepali golden-wheatish complexion (sampled from selfie)
   const skinMaterial = new THREE.MeshStandardMaterial({
-    color: new THREE.Color("#9e6744"), // Rich warm golden-olive wheatish complexion
-    roughness: 0.82,                  // Natural matte skin texture without synthetic shine
+    color: new THREE.Color("#9b6642"), // Natural warm golden-tan wheatish tone
+    roughness: 0.84,                  // Soft matte human skin texture without synthetic shine
     metalness: 0.0,
   });
 
-  // Natural textured middle-part hairstyle
+  // Natural dark espresso hair
   const hairMaterial = new THREE.MeshStandardMaterial({
-    map: hairTexture,
-    color: new THREE.Color("#181412"),
-    roughness: 0.70,
-    metalness: 0.08,
+    color: new THREE.Color("#161412"),
+    roughness: 0.72,
+    metalness: 0.05,
   });
 
-  // Defined dark natural eyebrows
+  // Defined dark eyebrows
   const eyebrowMaterial = new THREE.MeshStandardMaterial({
     color: new THREE.Color("#12100e"),
     roughness: 0.78,
   });
 
-  // 2. IRON MAN MARK-85 TORSO ARMOR (With glowing Arc Reactor & "AAYUSHIFTY" insignia)
-  const ironManChestMaterial = new THREE.MeshStandardMaterial({
-    map: chestDiffuse,
-    emissiveMap: chestEmissive,
-    emissive: new THREE.Color("#00f5ff"),
-    emissiveIntensity: 2.2,
+  // 2. IRON MAN MARK-85 SUIT MATERIALS
+  // Metallic Hot-Rod Crimson Lacquer
+  const ironManArmorMaterial = new THREE.MeshStandardMaterial({
+    color: new THREE.Color("#8f0c1a"),
     roughness: 0.22,
     metalness: 0.88,
   });
 
-  // 3. IRON MAN GAUNTLETS & PALM REPULSORS
+  // Armored Repulsor Gauntlets
   const ironManGauntletMaterial = new THREE.MeshStandardMaterial({
-    map: gauntletDiffuse,
-    emissiveMap: gauntletEmissive,
-    emissive: new THREE.Color("#00f5ff"),
-    emissiveIntensity: 2.0,
-    roughness: 0.25,
-    metalness: 0.85,
-  });
-
-  // 4. IRON MAN GREAVES & LEG ARMOR (Metallic crimson with gold titanium knee caps)
-  const ironManLegMaterial = new THREE.MeshStandardMaterial({
-    color: new THREE.Color("#8f0c1c"),
-    roughness: 0.26,
+    color: new THREE.Color("#820a16"),
+    roughness: 0.24,
     metalness: 0.86,
   });
 
-  // 5. IRON MAN FLIGHT THRUSTER BOOTS
-  const ironManBootsMaterial = new THREE.MeshStandardMaterial({
-    color: new THREE.Color("#7b0917"),
-    roughness: 0.24,
-    metalness: 0.9,
+  // Leg Greaves
+  const ironManLegMaterial = new THREE.MeshStandardMaterial({
+    color: new THREE.Color("#880b18"),
+    roughness: 0.26,
+    metalness: 0.85,
   });
 
-  // Glowing cyan flight thruster sole stabilizers
+  // Flight Boots & Thruster Soles
+  const ironManBootsMaterial = new THREE.MeshStandardMaterial({
+    color: new THREE.Color("#740814"),
+    roughness: 0.24,
+    metalness: 0.90,
+  });
   const ironManThrusterSoleMaterial = new THREE.MeshStandardMaterial({
     color: new THREE.Color("#e0f2fe"),
     emissive: new THREE.Color("#00f5ff"),
@@ -672,113 +307,147 @@ export function applyAayushIronMan(character: THREE.Object3D) {
     metalness: 0.5,
   });
 
-  // Apply materials across the character hierarchy
+  // Traverse and apply materials
   character.traverse((child: any) => {
     if (child.isMesh) {
       const name = (child.name || "").toLowerCase();
       const parentName = (child.parent?.name || "").toLowerCase();
       const matName = (child.material?.name || "").toLowerCase();
 
-      // --- TORSO / UPPER BODY: IRON MAN SUIT WITH "AAYUSHIFTY" & ARC REACTOR ---
+      // Check if mesh is the Hair
       if (
-        name === "body.shirt" ||
-        name.includes("shirt") ||
-        parentName.includes("shirt") ||
-        matName.includes("shirt")
+        name.includes("hair") ||
+        name.includes("pcube3") ||
+        parentName.includes("hair")
       ) {
-        child.material = ironManChestMaterial;
+        child.material = hairMaterial;
         child.material.needsUpdate = true;
+        sculptMiddlePartHair(child as THREE.Mesh);
       }
-      // --- HANDS: IRON MAN REPULSOR GAUNTLETS ---
-      else if (
-        name.includes("hand") ||
-        parentName.includes("hand") ||
-        name.includes("mesh.002")
-      ) {
-        child.material = ironManGauntletMaterial;
-        child.material.needsUpdate = true;
-      }
-      // --- EYEBROWS: AAYUSH'S DEFINED BROWS ---
+      // Check if mesh is Eyebrows
       else if (
         name.includes("eyebrow") ||
-        parentName.includes("eyebrow")
+        parentName.includes("eyebrow") ||
+        name.includes("plane.004") ||
+        name.includes("plane004")
       ) {
         child.material = eyebrowMaterial;
         child.material.needsUpdate = true;
       }
-      // --- HAIR: AAYUSH'S MIDDLE-PART TEXTURED HAIRSTYLE ---
+      // Check if mesh is the Shirt / Torso -> Iron Man Armor
       else if (
-        name.includes("hair") ||
-        parentName.includes("hair") ||
-        name.includes("pcube3")
+        name.includes("shirt") ||
+        parentName.includes("shirt") ||
+        name.includes("cube.002") ||
+        name.includes("cube002") ||
+        matName.includes("shirt")
       ) {
-        child.material = hairMaterial;
+        child.material = ironManArmorMaterial;
         child.material.needsUpdate = true;
       }
-      // --- FACE, EARS & NECK: AAYUSH'S AUTHENTIC NATURAL SKIN TONE ---
+      // Check if mesh is Hands -> Gauntlets
       else if (
-        name.includes("neck") ||
-        parentName.includes("neck") ||
-        name.includes("plane.005") ||
-        name.includes("ear") ||
-        parentName.includes("ear") ||
-        name.includes("plane.003") ||
-        name.includes("plane.007") ||
-        parentName.includes("plane.007") ||
-        name.includes("face") ||
-        parentName.includes("face") ||
-        matName.includes("skin")
+        name.includes("hand") ||
+        parentName.includes("hand") ||
+        name.includes("mesh.002") ||
+        name.includes("mesh002")
       ) {
-        child.material = skinMaterial;
+        child.material = ironManGauntletMaterial;
         child.material.needsUpdate = true;
       }
-      // --- LEGS / PANTS: IRON MAN ARMOR GREAVES ---
+      // Check if mesh is Pants -> Greaves
       else if (
         name.includes("pant") ||
         parentName.includes("pant") ||
         name.includes("cube.004") ||
-        matName.includes("olive")
+        name.includes("cube004")
       ) {
         child.material = ironManLegMaterial;
         child.material.needsUpdate = true;
       }
-      // --- BOOTS: IRON MAN FLIGHT BOOTS ---
+      // Check if mesh is Shoes -> Flight Boots
       else if (
         name.includes("shoe") ||
         parentName.includes("shoe") ||
         name.includes("cylinder.005") ||
-        matName.includes("sneaker")
+        name.includes("cylinder005")
       ) {
         child.material = ironManBootsMaterial;
         child.material.needsUpdate = true;
       }
-      // --- SOLES: GLOWING CYAN FLIGHT THRUSTER PADS ---
+      // Check if mesh is Soles -> Thruster Soles
       else if (
         name.includes("sole") ||
         parentName.includes("sole") ||
         name.includes("cylinder.008") ||
-        matName.includes("sole")
+        name.includes("cylinder008")
       ) {
         child.material = ironManThrusterSoleMaterial;
+        child.material.needsUpdate = true;
+      }
+      // Eye mesh -> Preserve eyes
+      else if (name.includes("eye") || parentName.includes("eye") || matName.includes("eye")) {
+        // keep original eye texture/material
+      }
+      // Check if mesh is Face, Neck, or Ears -> AUTHENTIC SKIN!
+      // This catches Plane.007, Plane007, Neck, Ear.001, etc.
+      else if (
+        name.includes("007") ||
+        parentName.includes("007") ||
+        name.includes("face") ||
+        parentName.includes("face") ||
+        name.includes("neck") ||
+        parentName.includes("neck") ||
+        name.includes("005") ||
+        name.includes("ear") ||
+        parentName.includes("ear") ||
+        name.includes("003") ||
+        matName.includes("default") ||
+        matName.includes("skin") ||
+        (child.morphTargetInfluences && child.morphTargetInfluences.length > 0)
+      ) {
+        // CRITICAL BUG FIX: Plane.007 has vertex colors attribute 'color' with all 1.0 (white).
+        // Removing the 'color' attribute ensures Three.js renders the genuine skinMaterial color!
+        if (child.geometry && child.geometry.attributes && child.geometry.attributes.color) {
+          child.geometry.deleteAttribute("color");
+        }
+        child.material = skinMaterial;
         child.material.needsUpdate = true;
       }
     }
   });
 
-  // --- 3D CHEST ARC REACTOR GLOWING LIGHT ---
-  // Positioned down on the chest sternum pointing forward so it illuminates
-  // the armor plates without over-exposing the face!
-  const chestBone = character.getObjectByName("spine004") || character.getObjectByName("spine005");
-  const existingReactorLight = character.getObjectByName("arcReactorLight");
-  if (!existingReactorLight) {
-    const arcReactorLight = new THREE.PointLight(0x00f5ff, 1.1, 5.5, 2);
-    arcReactorLight.name = "arcReactorLight";
-    arcReactorLight.position.set(0, -0.65, 0.95);
-    if (chestBone) {
-      chestBone.add(arcReactorLight);
+  // 3. ATTACH PHYSICAL 3D ARC REACTOR & "AAYUSHIFTY" INSIGNIA PLATE
+  // Attach to upper torso bone (spine003 or spine004 or character root)
+  const chestBone =
+    character.getObjectByName("spine003") ||
+    character.getObjectByName("spine004") ||
+    character.getObjectByName("spine005") ||
+    character;
+
+  const existingReactor = character.getObjectByName("starkArcReactor3D");
+  if (!existingReactor) {
+    const arcReactor = create3DArcReactor();
+    const insigniaPlate = create3DAayushiftyInsignia();
+
+    if (chestBone && chestBone.name.includes("spine003")) {
+      // Position on spine003 (sternum center)
+      arcReactor.position.set(0, 0.72, 0.74);
+      arcReactor.rotation.x = -0.08;
+
+      insigniaPlate.position.set(0, 1.04, 0.76);
+      insigniaPlate.rotation.x = -0.14;
+
+      chestBone.add(arcReactor);
+      chestBone.add(insigniaPlate);
     } else {
-      arcReactorLight.position.set(0, 8.4, 1.2);
-      character.add(arcReactorLight);
+      // Fallback global positioning on character
+      arcReactor.position.set(0, 8.4, 0.85);
+      insigniaPlate.position.set(0, 9.4, 0.88);
+      insigniaPlate.rotation.x = -0.12;
+
+      character.add(arcReactor);
+      character.add(insigniaPlate);
     }
   }
 }
